@@ -50,12 +50,10 @@ OAuth
 -Allow multiple sharing of data between different services 
 -Single sign in
 
-Express.js
+java-Express
 
-- Used for the backend of the app
-- Create a REST API for the project
-
--User login and safe signup
+-Used for the backend of the app
+-Create a REST API for the project
 
 React
 
