@@ -43,6 +43,11 @@ MongoDB
 - Store Leagues (Users participating, LCS players playing in this league)
 - Store User data
 
+java-express
+
+- Used for the backend of the app
+- Create a REST API for the project
+
 Express.js
 
 - Used for the backend of the app
