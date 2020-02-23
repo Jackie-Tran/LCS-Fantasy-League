@@ -81,4 +81,4 @@ Node.js
    - Creating a solid experience for the user with decent speed and easy accesiblility
    - Ability to make the pages visually appealing for each user
 5. Connection of Backend/Frontend
-   - Challenging to understand/use another backend service and connecting it with out frontend 
+   - Challenging to understand/use another backend service and connect it with our frontend 
