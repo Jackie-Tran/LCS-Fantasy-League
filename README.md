@@ -46,9 +46,9 @@ MongoDB
 
 OAuth
 
--signin into account 
--Allow multiple sharing of data between different services 
--Single sign in
+- signin into account 
+- Allow multiple sharing of data between different services 
+- Single sign in
 
 java-Express
 
