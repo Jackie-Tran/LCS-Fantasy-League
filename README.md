@@ -52,9 +52,8 @@ OAuth
 
 java-Express
 
--Used for the backend of the app
-
--Create a REST API for the project
+- Used for the backend of the app
+- Create a REST API for the project
 
 React
 
