@@ -31,7 +31,8 @@ A online web app where people can join leagues and draft a team to compete every
    - Require invitation code to join
 2. Trades
    - Participants can make offers to trade players with other users.
-3. 
+3. Player Comparator
+   - Compare stats of each player
 
 ## Tech Stack
 
@@ -43,20 +44,22 @@ MongoDB
 - Store Leagues (Users participating, LCS players playing in this league)
 - Store User data
 
-java-express
+OAuth
 
-- Used for the backend of the app
-- Create a REST API for the project
+-signin into account 
+-Allow multiple sharing of data between different services 
+-Single sign in
 
 Express.js
 
 - Used for the backend of the app
 - Create a REST API for the project
 
+-User login and safe signup
+
 React
 
 - Building the entire frontend
-
 Node.js
 
 - Runtime Environment to run our REST API
@@ -73,4 +76,11 @@ Node.js
        - eSports data API. 
      - Web scraping
        - If we are unable to find a free API that we can use, then we could scrape the data online. This would involve us having to learn how to scrape data online which would be another challenge
-3. 
+3. Security
+   - Secure user saving with no ability to steal another persons username/data
+   - Possibly using OAuth to signin/send data to email
+4. UI/UX
+   - Creating a solid experience for the user with decent speed and easy accesiblility
+   - Ability to make the pages visually appealing for each user
+5. Connection of Backend/Frontend
+   - Challenging to understand/use another backend service and connecting it with out frontend 
