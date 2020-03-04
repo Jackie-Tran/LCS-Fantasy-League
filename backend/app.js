@@ -1,19 +1,21 @@
 const express = require('express');
 const app = express();
-
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 require('dotenv/config');
+
+// Import Endpoints
+const playersRoute = require('./routes/players');
+
+app.use('/players', playersRoute);
 
 // API Endpoints
 app.get('/', (req, res, next) => {
     res.send('LOL Fantasy League');
 });
-
-// Connect to MongoDb
-mongoose.connect(process.env.DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true }, () => {
-    console.log('Connected to MongoDb');
-});
-
 
 // Starting the server
 const http = require('http');
