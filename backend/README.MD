@@ -2,7 +2,7 @@
 
 ### Before You Can Run The Backend
 
-In the backend directory, create a file called `.env` . Copy the following into the file.
+In the backend directory, update the `.env`  file. 
 
 ```
 DB_CONNECTION = mongodb+srv://<username>:<password>@lol-fantasyleague-fi5fz.mongodb.net/test?retryWrites=true&w=majority
