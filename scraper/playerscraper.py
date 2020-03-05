@@ -26,9 +26,11 @@ for team in teams:
     # Find roster table
     table = soup.find(class_="wikitable")
     rows = iter(table.find_all('tr'))
+    # We don't need the first row (it is just table headers)
     next(rows)
     for row in rows:
         cols = row.find_all('td')
+        # Player data
         nationality = cols[0].get_text().strip()
         ign = cols[2].get_text().strip()
         name = cols[3].get_text().strip().split(" ")
@@ -38,19 +40,6 @@ for team in teams:
         role = re.sub('[0-9]', '', cols[4].get_text().strip()) 
         print(firstName, lastName, otherName, nationality, ign, role)
     print()
-
-# go through each individual team page to get the roster and team data
-
-# print(roster.get_text())
-# response = requests.get('https://lol.gamepedia.com/Cloud9')
-# response = requests.get('https://lol.gamepedia.com/Counter_Logic_Gaming')
-# response = requests.get('https://lol.gamepedia.com/Dignitas')
-# response = requests.get('https://lol.gamepedia.com/Evil_Geniuses.NA')
-# response = requests.get('https://lol.gamepedia.com/FlyQuest')
-# response = requests.get('https://lol.gamepedia.com/Golden_Guardians')
-# response = requests.get('https://lol.gamepedia.com/Immortals')
-# response = requests.get('https://lol.gamepedia.com/Team_Liquid')
-# response = requests.get('https://lol.gamepedia.com/Team_SoloMid')
 
 """
 ---Credits---
