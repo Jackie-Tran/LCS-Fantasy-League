@@ -9,6 +9,10 @@ const ProPlayerSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    otherName: {
+        type: String,
+        require: false
+    }
     nationality: {
         type: String,
         required: true
