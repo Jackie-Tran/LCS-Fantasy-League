@@ -25,7 +25,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // Update player
-router.patch('/:firstName/:lastName/:ign', (req, res, next) => {
+router.put('/:firstName/:lastName/:ign', (req, res, next) => {
     
     ProPlayer.findOne({ firstName: req.params.firstName, lastName: req.params.lastName, ign: req.params.ign }, (err, player) => {
         // Create new player if they are not already in the database
