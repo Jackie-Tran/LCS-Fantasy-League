@@ -12,7 +12,7 @@ const ProPlayerSchema = mongoose.Schema({
     otherName: {
         type: String,
         require: false
-    }
+    },
     nationality: {
         type: String,
         required: true
