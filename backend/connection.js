@@ -6,4 +6,8 @@ mongoose.eSports = mongoose.createConnection(process.env.ESPORTS_DB, { useUnifie
     console.log('Connected to eSports DB');
 });
 
+mongoose.leagues = mongoose.createConnection(process.env.LEAGUES_DB, { useUnifiedTopology: true, useNewUrlParser: true }, () => {
+    console.log('Connected to leagues DB');
+});
+
 module.exports = mongoose;
