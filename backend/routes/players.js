@@ -25,23 +25,28 @@ router.get('/:id', (req, res, next) => {
 });
 
 // Update player
-router.patch('/:id/', (req, res, next) => {
-    ProPlayer.findById(req.params.id, (err, player) => {
-        if (!player) return res.sendStatus(404);
-        if (err) return res.json(err);
-
-        // Check request body for which fields to update
-        if (req.body.firstName) player.firstName = req.body.firstName;
-        if (req.body.lastName) player.lastName = req.body.lastName;
-        if (req.body.nationality) player.nationality = req.body.nationality;
-        if (req.body.team) player.team = req.body.team;
-        if (req.body.ign) player.ign = req.body.ign;
-        if (req.body.role) player.role = req.body.role;
-
-        // Push the update to the database
-        player.save();
-        return res.json(player);
+router.put('/:firstName/:lastName/:ign', (req, res, next) => {
+    
+    ProPlayer.findOne({ firstName: req.params.firstName, lastName: req.params.lastName, ign: req.params.ign }, (err, player) => {
+        // Create new player if they are not already in the database
+        if (!player) {
+            console.log("player doesnt exist");
+            let player = new ProPlayer(req.body);
+            player.save((err) => {
+                if (err) return res.json(err);
+                return res.json(player);
+            });
+        } else {
+            // If the player DOES exist, just update the fields
+            if (err) return res.json(err);
+            ProPlayer.updateOne({ firstName: req.params.firstName, lastName: req.params.lastName, ign: req.params.ign }, req.body, (err, player) => {
+                if (err) return res.send(err);
+                return res.json(player);
+            });
+        }
     });
+
+    
 });
 
 // Delete player
