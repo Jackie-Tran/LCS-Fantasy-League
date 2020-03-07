@@ -8,9 +8,11 @@ app.use(bodyParser.json());
 require('dotenv/config');
 
 // Import Endpoints
-const playersRoute = require('./routes/players');
+const proPlayersRoute = require('./routes/ProPlayerRoutes');
+const leagueRoute = require('./routes/LeaugeRoutes');
 
-app.use('/players', playersRoute);
+app.use('/players', proPlayersRoute);
+app.use('/leagues', leagueRoute);
 
 // API Endpoints
 app.get('/', (req, res, next) => {
