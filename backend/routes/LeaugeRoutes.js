@@ -73,4 +73,13 @@ router.delete('/:id/removePro/:proId', (req, res, next) => {
     });
 });
 
+// Delete league
+router.delete('/:id', (req, res, next) => {
+    League.findByIdAndDelete(req.params.id, (err, league) => {
+        if (!league) return res.sendStatus(404);
+        if (err) return res.json(err);
+        if (league) return res.json(league);
+    });
+});
+
 module.exports = router;
