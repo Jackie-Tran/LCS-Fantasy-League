@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import League from '../components/League';
 
 import axios from 'axios';
@@ -28,14 +28,11 @@ class LeaguesScreen extends React.Component {
 
     render() {
         return (
-        <View style={styles.container}>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <FlatList data={this.state.leagues} renderItem={ ({ item }) => (
+                <League name={item.name} numPlayers={item.players.length} maxPlayers={item.maxPlayers} price='$3000'/>
+            )}/>
+        </SafeAreaView>
         );
     }
 }
