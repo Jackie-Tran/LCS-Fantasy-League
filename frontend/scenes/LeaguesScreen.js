@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import League from '../components/League';
 
 import axios from 'axios';
 import * as endpoints from '../constants/endpoints';
@@ -28,7 +29,12 @@ class LeaguesScreen extends React.Component {
     render() {
         return (
         <View style={styles.container}>
-            <Text style={{color: '#fff'}}>Leagues Screen</Text>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
+            <League name="Justice League" numPlayers='0' maxPlayers='5' price='$3000'/>
         </View>
         );
     }
@@ -37,10 +43,8 @@ class LeaguesScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#262626',
+      backgroundColor: '#171e24',
       color: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
 });
 
