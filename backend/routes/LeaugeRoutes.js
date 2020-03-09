@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const League = require('../models/League');
-
-router.get('/', (req, res) => {
-    res.send('League of Legends League Route');
-});
-
 /**
  * TODO: 
  * - Players cannot join the same league multiple times (ie. players array should not have duplicates)
@@ -28,6 +23,14 @@ router.get('/:id', (req, res, next) => {
         if (!league) return res.sendStatus(404);
         if (err) return res.json(err);
         if (league) return res.json(league);
+    });
+});
+
+// Get leagues
+router.get('/', (req, res, next) => {
+    League.find({}, (err, leagues) => {
+        if (err) return res.json(err);
+        return res.json(leagues);
     });
 });
 
