@@ -15,7 +15,8 @@ router.post('/', (req, res, next) => {
     });
 });
 
-// Get player
+
+// Get All players
 router.get('/:id', (req, res, next) => {
     ProPlayer.findById(req.params.id, (err, player) => {
         if (!player) return res.sendStatus(404);
@@ -23,6 +24,15 @@ router.get('/:id', (req, res, next) => {
         if (player) return res.json(player);
     });
 });
+// Get All players
+router.get('/', (req, res, next) => {
+    ProPlayer.find( {}, (err, player) => {
+        if (!player) return res.sendStatus(404);
+        if (err) return res.json(err);
+        if (player) return res.json(player);
+    });
+});
+
 
 // Update player
 router.put('/:firstName/:lastName/:ign', (req, res, next) => {
