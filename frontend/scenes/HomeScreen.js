@@ -4,7 +4,6 @@ import { StyleSheet,ImageBackground,TouchableOpacity,Text, View,Button,TextInput
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import { AppRegistry, Dimensions } from 'react-native';
-import { DrawerNavigator } from 'react-navigation';
 
 
 class HomeScreen extends Component {
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    flexWrap: true,
     alignItems: 'center',
     flexDirection: 'column',
     margin: 10
