@@ -1,41 +1,46 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet,TouchableOpacity,Text, View,Button,TextInput,TouchableHighlight,Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import { AppRegistry, Dimensions } from 'react-native';
-import { DrawerNavigator } from 'react-navigation';
-import { createTabNavigator } from 'react-navigation';
-import landingpage from './landingpage';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-const Stack = createStackNavigator(); 
-const Tab = createBottomTabNavigator();
 
-const SettingsScreen= ({navigation}) => 
-{
-  return (
-    <View >
-    </View>
-  );
-};
+import * as  firebase from 'firebase'
+import HomeScreen from './HomeScreen'
+
 class login extends Component {
+  state = 
+  {
+    Email: "",
+    password: "",
+    errorMessage: null
+  }; 
+
+  handleLogin = () => 
+  { const {email,password}= this.state 
+     firebase.auth().signInWithEmailAndPassword(email,password)
+     .then(() => this.props.navigation.navigate('./HomeScreen'))
+     .catch(error => console.log(error))
+
+  }
     render () 
     {
         return (
           <View style={styles.container}>
           <Image   style={{width: 300, height: 300}}  source={require('./images/lcs.png')} />
             <TextInput placeholder="Enter Email"
-             secureTextEntry={true}
+           value={this.state.email}
+           onChangeText={email => this.setState({ email })}
+             secureTextEntry={false}
              placeholderTextColor="#FFFFFF" 
              style={styles.inputStyle} />
               <TextInput
                 secureTextEntry={true}
-                placeholder="Enter Password" 
+                placeholder="Enter Password"
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
                 placeholderTextColor="#FFFFFF" 
                 style={styles.inputStyle}
               />
           <TouchableOpacity 
-           onPress= {() => this.props.navigation.navigate('leaguePage') }>
+           onPress={this.handleLogin}>
           <Text style = {styles.logInButton}  >Login </Text>
           </TouchableOpacity>
           <Text style={styles.baseText}> Dont have an account? Sign Up Now </Text>
