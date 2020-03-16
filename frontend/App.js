@@ -9,10 +9,9 @@ import LoginScreen from './scenes/authentication/LoginScreen';
 import RegisterScreen from './scenes/authentication/RegisterScreen';
 import ForgotPasswordScreen from './scenes/authentication/ForgotPasswordScreen';
 
-import LeaguesPage from './scenes/LeaguesScreen';
+import MainScreen from './scenes/MainScreen';
 import Login from './scenes/Login';
 import Signup from './scenes/Signup';
-import HomeScreen from './scenes/HomeScreen';
 // Navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,26 +20,6 @@ export default function App() {
 
   const [authenticated, setAuthenticated] = React.useState(false);
   return (
-    // <NavigationContainer>
-    //   {
-    //     !authenticated ? (
-    //       <Stack.Navigator>
-    //         <Stack.Screen name="Login" component={LoginScreen} initialParams={ {setAuthenticated} }/>
-    //         <Stack.Screen name="Register" component={RegisterScreen}/>
-    //         <Stack.Screen name="Forgot" component={ForgotPasswordScreen}/>
-    //       </Stack.Navigator>
-    //     ) : (
-    //       <Tab.Navigator>
-    //         <Tab.Screen name="Leagues" component={LeaguesPage}/>
-    //       </Tab.Navigator>
-    //     )
-    //   }
-    //   {/* <Stack.Navigator>
-    //         <Stack.Screen name="Login" component={LoginScreen} initialParams={ setAuthenticated }/>
-    //         <Stack.Screen name="Register" component={RegisterScreen}/>
-    //         <Stack.Screen name="Forgot" component={ForgotPasswordScreen}/>
-    //       </Stack.Navigator> */}
-    // </NavigationContainer>
     <NavigationContainer>
       {
         !authenticated ? (
@@ -49,12 +28,11 @@ export default function App() {
             <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
           </Stack.Navigator>
         ) : (
-            <Tab.Navigator>
-              <Tab.Screen name="Leagues" component={LeaguesPage} />
-            </Tab.Navigator>
+            <Stack.Navigator>
+              <Stack.Screen name="Main" component={MainScreen} />
+            </Stack.Navigator>
           )
       }
-
     </NavigationContainer>
   );
 }

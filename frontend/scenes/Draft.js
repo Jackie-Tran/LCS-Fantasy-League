@@ -3,7 +3,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet,SafeAreaView,ScrollView,TouchableOpacity,Alert, Text, View,Button,TextInput,TouchableHighlight,Image} from 'react-native';
 
 import * as  firebase from 'firebase'
-import HomeScreen from './HomeScreen'
 
 
 class Draft extends Component {
