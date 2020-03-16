@@ -6,6 +6,7 @@ let fullWidth = Dimensions.get('window').width;
 let fullHeight = Dimensions.get('window').height;
 
 const League = (props) => {
+
     return (
       <View style={styles.container}>
         <Image style={styles.image} source={require('../assets/league_icon.png')}/>
