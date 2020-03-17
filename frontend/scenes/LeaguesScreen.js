@@ -30,7 +30,7 @@ class LeaguesScreen extends React.Component {
         return (
         <SafeAreaView style={styles.container}>
             <FlatList data={this.state.leagues} renderItem={ ({ item }) => (
-                <League name={item.name} numPlayers={item.players.length} maxPlayers={item.maxPlayers} price='$3000'/>
+                <League id={item._id} name={item.name} numPlayers={item.players.length} maxPlayers={item.maxPlayers} price='$3000'/>
             )}/>
         </SafeAreaView>
         );
