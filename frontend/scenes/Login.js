@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
     margin: 10
   },
   baseText: {
-    fontFamily: 'Cochin',
+    // fontFamily: 'Cochin',
     marginVertical: 20,
     color: "#FFFFFF"
   },
   base2Text: {
-    fontFamily: 'Cochin',
+    // fontFamily: 'Cochin',
     marginVertical: 20,
     color: "#FFFFFF",
     fontWeight: 'bold'
