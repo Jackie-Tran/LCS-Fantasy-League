@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 let fullWidth = Dimensions.get('window').width;
@@ -8,15 +9,15 @@ let fullHeight = Dimensions.get('window').height;
 const League = (props) => {
 
     return (
-      <View style={styles.container} onTouchEnd={() => console.log("test")}>
+      <TouchableOpacity style={styles.container} onPress={() => props.gotoLeague(props.data)}>
         <Image style={styles.image} source={require('../assets/league_icon.png')}/>
         <View style={styles.data}>
-            <Text style={styles.title}>{props.name}</Text>
-            <Text style={styles.subText}>{props.numPlayers} / {props.maxPlayers} Players</Text>
-            <Text style={styles.subText}>Buy-in Price: {props.price}</Text>
-            <Text style={styles.subText}>Id: {props.id}</Text>
+            <Text style={styles.title}>{props.data.name}</Text>
+            <Text style={styles.subText}>{(props.data.players).length} / {props.data.maxPlayers} Players</Text>
+            <Text style={styles.subText}>Buy-in Price: $3000</Text>
+            <Text style={styles.subText}>Id: {props.data._id}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
 }
 

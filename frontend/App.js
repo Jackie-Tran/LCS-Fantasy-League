@@ -12,6 +12,8 @@ import ForgotPasswordScreen from './scenes/authentication/ForgotPasswordScreen';
 import MainScreen from './scenes/MainScreen';
 import Login from './scenes/Login';
 import Signup from './scenes/Signup';
+import LeagueScreen from './scenes/LeagueScreen';
+
 // Navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,6 +21,15 @@ const Tab = createBottomTabNavigator();
 export default function App() {
 
   const [authenticated, setAuthenticated] = React.useState(false);
+  const [currentLeague, setCurrentLeague] = React.useState({
+    id: -1,
+    name: 'leagueName',
+    players: [],
+    maxPlayers: -1,
+    img: 'url',
+    activePros: [],
+  });
+
   return (
     <NavigationContainer>
       {
@@ -29,7 +40,8 @@ export default function App() {
           </Stack.Navigator>
         ) : (
             <Stack.Navigator>
-              <Stack.Screen name="Main" options={{ headerShown: false }} component={MainScreen} />
+              <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
+              <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
             </Stack.Navigator>
           )
       }
