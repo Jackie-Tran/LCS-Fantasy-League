@@ -18,12 +18,20 @@ class LeagueProfile extends Component {
         { userName: 'Jackie', iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png', highScore: -Infinity },
         { userName: 'Jenny', iconUrl: 'https://4.bp.blogspot.com/-tdxpnSzbcZA/W3Mx4y8kiZI/AAAAAAABFV0/hF4o7DwC-L8oDKz7lGdA-wT5J8dYEu5ygCLcBGAs/s200/3599.jpg', highScore: 120 }]
     }
+  
+  getPlayers = () => {
+    
+  }
+
+  componentDidMount() {
+
+  }
 
   render() {
     return (
 
       <View style={styles.container}>
-        <Text style={styles.text} >LEAGUE NAME</Text>
+        <Text style={styles.text} >{this.props.route.params.data.name}</Text>
         <Image style={styles.picture} source={require('../images/lcs.png')} />
         <View style={styles.view}>
           <TouchableOpacity
