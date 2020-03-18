@@ -42,6 +42,14 @@ class LeagueProfile extends Component {
             style={styles.button}>
             <Text style={styles.text} > Matchups </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}>
+            <Text style={styles.text} > My team </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}>
+            <Text style={styles.text} > Join Team </Text>
+          </TouchableOpacity>
         </View>
         <Leaderboard
           evenRowColor='#FF00FF'
