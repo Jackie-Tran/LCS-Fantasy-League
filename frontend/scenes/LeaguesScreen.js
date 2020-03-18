@@ -22,6 +22,10 @@ class LeaguesScreen extends React.Component {
         });
     }
 
+    gotoLeague = (league) => {
+        this.props.navigation.navigate('League', { data: league });
+    }
+
     componentDidMount() {
         this.getLeagues();
     }
@@ -30,7 +34,7 @@ class LeaguesScreen extends React.Component {
         return (
         <SafeAreaView style={styles.container}>
             <FlatList data={this.state.leagues} renderItem={ ({ item }) => (
-                <League id={item._id} name={item.name} numPlayers={item.players.length} maxPlayers={item.maxPlayers} price='$3000'/>
+                <League data={item} gotoLeague={this.gotoLeague}/>
             )}/>
         </SafeAreaView>
         );
