@@ -38,7 +38,7 @@ for team in teams:
         firstName = name[0]
         lastName = name[1]
         otherName = name[2].strip('()') if len(name) == 3 else ""
-        role = re.sub('[0-9]', '', cols[4].get_text().strip()) 
+        role = re.sub('[0-9]', '', cols[4].get_text().strip()).split(" ")[0].lower()
 
         # Create player object and convert to json
         player = ProPlayer(firstName, lastName, otherName, nationality, ign, role, team.get_text())

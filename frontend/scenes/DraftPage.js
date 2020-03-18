@@ -4,8 +4,20 @@ import { StyleSheet, SafeAreaView, TouchableOpacity, Text, View, TextInput } fro
 import Player from '../components/Player';
 import { FlatList } from 'react-native-gesture-handler';
 
+import axios from 'axios';
+import * as endpoints from '../constants/endpoints';
+
 
 class DraftPage extends Component {
+
+  getPlayers = () => {
+    console.log("getPlayers");
+  }
+
+  componentDidMount() {
+    // When the page loads
+    this.getPlayers();
+  }
 
   render() {
     return (
@@ -32,7 +44,8 @@ class DraftPage extends Component {
               <Text>Support</Text>
             </TouchableOpacity>
           </View>
-          <Player />
+          {/* Players */}
+          <FlatList />
         </View>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.lockinButton}>
