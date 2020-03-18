@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Text, View, TextInput } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity, Text, View, TextInput } from 'react-native';
 
 import Player from '../components/Player';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 class DraftPage extends Component {
@@ -31,13 +32,13 @@ class DraftPage extends Component {
               <Text>Support</Text>
             </TouchableOpacity>
           </View>
+          <Player />
         </View>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.lockinButton}>
             <Text>Lock In</Text>
           </TouchableOpacity>
         </View>
-
       </SafeAreaView>
     );
   };
