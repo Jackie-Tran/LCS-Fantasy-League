@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 20,
     justifyContent: 'flex-start',
-    alignItems: '',
+    alignItems: 'center',
     alignSelf: 'flex-start',
     marginVertical: 8,
     marginRight: 100,

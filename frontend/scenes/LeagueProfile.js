@@ -18,9 +18,9 @@ class LeagueProfile extends Component {
         { userName: 'Jackie', iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png', highScore: -Infinity },
         { userName: 'Jenny', iconUrl: 'https://4.bp.blogspot.com/-tdxpnSzbcZA/W3Mx4y8kiZI/AAAAAAABFV0/hF4o7DwC-L8oDKz7lGdA-wT5J8dYEu5ygCLcBGAs/s200/3599.jpg', highScore: 120 }]
     }
-  
+
   getPlayers = () => {
-    
+
   }
 
   componentDidMount() {
@@ -43,11 +43,11 @@ class LeagueProfile extends Component {
             <Text style={styles.text} > Matchups </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}>
+            style={styles.button} onPress={() => this.props.navigation.navigate('My Team')}>
             <Text style={styles.text} > My team </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}>
+            style={styles.button} onPress={() => this.props.navigation.navigate('Draft')}>
             <Text style={styles.text} > Join Team </Text>
           </TouchableOpacity>
         </View>
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     alignItems: 'stretch',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 100
   },
   button: {
     borderColor: 'white', borderWidth: 2, borderRadius: 10,
@@ -96,9 +97,9 @@ const styles = StyleSheet.create({
   picture:
   {
     alignSelf: 'center',
-    height: 300,
-    width: 300,
-    marginBottom: 100,
+    height: 200,
+    width: 200,
+    marginBottom: 0,
   },
   baseText:
   {
