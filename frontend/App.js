@@ -9,8 +9,9 @@ import LoginScreen from './scenes/authentication/LoginScreen';
 import RegisterScreen from './scenes/authentication/RegisterScreen';
 import ForgotPasswordScreen from './scenes/authentication/ForgotPasswordScreen';
 
-import LeaguesPage from './scenes/LeaguesScreen'
-
+import MainScreen from './scenes/MainScreen';
+import Login from './scenes/Login';
+import Signup from './scenes/Signup';
 // Navigation
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,21 +24,15 @@ export default function App() {
       {
         !authenticated ? (
           <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen} initialParams={ {setAuthenticated} }/>
-            <Stack.Screen name="Register" component={RegisterScreen}/>
-            <Stack.Screen name="Forgot" component={ForgotPasswordScreen}/>
+            <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
+            <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
           </Stack.Navigator>
         ) : (
-          <Tab.Navigator>
-            <Tab.Screen name="Leagues" component={LeaguesPage}/>
-          </Tab.Navigator>
-        )
+            <Stack.Navigator>
+              <Stack.Screen name="Main" options={{ headerShown: false }} component={MainScreen} />
+            </Stack.Navigator>
+          )
       }
-      {/* <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen} initialParams={ setAuthenticated }/>
-            <Stack.Screen name="Register" component={RegisterScreen}/>
-            <Stack.Screen name="Forgot" component={ForgotPasswordScreen}/>
-          </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

@@ -6,13 +6,15 @@ let fullWidth = Dimensions.get('window').width;
 let fullHeight = Dimensions.get('window').height;
 
 const League = (props) => {
+
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onTouchEnd={() => console.log("test")}>
         <Image style={styles.image} source={require('../assets/league_icon.png')}/>
         <View style={styles.data}>
             <Text style={styles.title}>{props.name}</Text>
             <Text style={styles.subText}>{props.numPlayers} / {props.maxPlayers} Players</Text>
             <Text style={styles.subText}>Buy-in Price: {props.price}</Text>
+            <Text style={styles.subText}>Id: {props.id}</Text>
         </View>
       </View>
     );
