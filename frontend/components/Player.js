@@ -9,9 +9,9 @@ const Player = (props) => {
         <View style={styles.container}>
             <Image style={styles.image} source={require('../assets/proPlayerIcon.jpg')} />
             <View style={styles.playerData}>
-              <Text style={styles.text}>WildTurtle</Text>
-              <Text style={styles.text}>FlyQuest</Text>
-              <Text style={styles.text}>ADC</Text>
+              <Text style={styles.text}>{props.ign}</Text>
+              <Text style={styles.text}>{props.team}</Text>
+              {/* <Text style={styles.text}>{props.role}</Text> */}
             </View>
         </View>
     );

@@ -10,13 +10,26 @@ import * as endpoints from '../constants/endpoints';
 
 class DraftPage extends Component {
 
-  getPlayers = () => {
-    console.log("getPlayers");
+  state = {
+    searchBar: '',
+    currentRole: '',
+    players: []
+  }
+
+  getPlayersByRole = (role) => {
+    axios.get(endpoints.GETPLAYERSBYROLE_EP + role)
+      .then(res => {
+        this.setState({ players: res.data });
+        console.log(this.state);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   componentDidMount() {
     // When the page loads
-    this.getPlayers();
+    this.getPlayersByRole("top");
   }
 
   render() {
@@ -24,28 +37,30 @@ class DraftPage extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Choose Player</Text>
-          <TextInput style={styles.searchBar} placeholder="Search LCS Player"/>
+          <TextInput style={styles.searchBar} placeholder="Search LCS Player" />
         </View>
         <View style={styles.playerSelect}>
           <View style={styles.roles}>
-            <TouchableOpacity style={styles.roleButton}>
-              <Text>Top</Text>
+            <TouchableOpacity style={styles.roleButton} onPress={() => this.getPlayersByRole('top')}>
+              <Text style={styles.text}>Top</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.roleButton}>
-              <Text>Jungle</Text>
+            <TouchableOpacity style={styles.roleButton} onPress={() => this.getPlayersByRole('jungler')}>
+              <Text style={styles.text}>Jungle</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.roleButton}>
-              <Text>Mid</Text>
+            <TouchableOpacity style={styles.roleButton} onPress={() => this.getPlayersByRole('mid')}>
+              <Text style={styles.text}>Mid</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.roleButton}>
-              <Text>ADC</Text>
+            <TouchableOpacity style={styles.roleButton} onPress={() => this.getPlayersByRole('bot')}>
+              <Text style={styles.text}>Bot</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.roleButton}>
-              <Text>Support</Text>
+            <TouchableOpacity style={styles.roleButton} onPress={() => this.getPlayersByRole('support')}>
+              <Text style={styles.text}>Support</Text>
             </TouchableOpacity>
           </View>
           {/* Players */}
-          <FlatList />
+          <FlatList data={this.state.players} renderItem={({ item }) => (
+            <Player ign={item.ign} team={item.team} role={item.role} />
+          )} />
         </View>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.lockinButton}>
@@ -114,6 +129,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  text: {
+    color: 'white'
   }
 });
 export default DraftPage;
