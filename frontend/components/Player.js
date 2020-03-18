@@ -1,19 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 let fullWidth = Dimensions.get('window').width;
 let fullHeight = Dimensions.get('window').height;
 
 const Player = (props) => {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container}>
             <Image style={styles.image} source={require('../assets/proPlayerIcon.jpg')} />
             <View style={styles.playerData}>
               <Text style={styles.text}>{props.ign}</Text>
               <Text style={styles.text}>{props.team}</Text>
               {/* <Text style={styles.text}>{props.role}</Text> */}
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
