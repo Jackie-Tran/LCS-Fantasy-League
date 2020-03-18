@@ -5,22 +5,26 @@ const Match = mongoose.Schema({
         type: String,
         required: true
     },
-    img: {
-        type: String,
-        required: true
-    },
-    maxPlayers: {
+    kills: {
         type: Number,
         required: true
     },
-    players: {
-        type: [String],
+    deaths: {
+        type: Number,
         required: true
     },
-    activePros: {
-        type: [String],
+    assists: {
+        type: Number,
         required: true
     },
+    cs: {
+        type: Number,
+        required: true
+    },
+    points: {
+      type: Number,
+      required: true
+    }
 });
 
-module.exports = mongoose.eSports.model('Match', LeagueSchema);
+module.exports = mongoose.leagues.model('Match', LeagueSchema);
