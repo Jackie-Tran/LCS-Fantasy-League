@@ -3,9 +3,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
 import Leaderboard from 'react-native-leaderboard';
 import { Dimensions } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
-class LeagueProfile extends Component {
+class Scoreboard extends Component {
 
   state =
     {
@@ -30,10 +31,10 @@ class LeagueProfile extends Component {
   render() {
     return (
 
-      <View style={styles.container}>
-        <Text style={styles.text} >{this.props.route.params.data.name}</Text>
-        <Image style={styles.picture} source={require('../images/lcs.png')} />
-        <View style={styles.view}>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title} >{this.props.route.params.data.name}</Text>
+        <Image style={styles.picture} source={require('../../../images/lcs.png')} />
+        {/* <View style={styles.view}>
           <TouchableOpacity
             style={styles.button}>
             <Text style={styles.text} > Scoreboard </Text>
@@ -58,7 +59,12 @@ class LeagueProfile extends Component {
           icon='iconUrl'
           sortBy='highScore'
           labelBy='userName' />
-      </View>
+        <View>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.text}>JOIN LEAGUE</Text>
+          </TouchableOpacity>
+        </View> */}
+      </SafeAreaView>
     )
   }
 }
@@ -67,31 +73,35 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000080',
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'stretch',
+    alignItems: 'center',
     flexDirection: 'column',
-    margin: 10
   },
+  title: {
+    color: 'white',
+    fontSize: 32,
+    fontWeight: 'bold'
+  },  
   view: {
     flex: 1,
     alignItems: 'stretch',
     flexDirection: 'row',
-    marginBottom: 100
   },
   button: {
-    borderColor: 'white', borderWidth: 2, borderRadius: 10,
+    borderColor: 'white', 
+    borderWidth: 2, 
+    borderRadius: 10,
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    height: 70,
+    height: 50,
     width: screenWidth / 2,
     backgroundColor: 'orange'
   },
   text:
   {
     alignSelf: 'center',
-    marginBottom: 50,
     fontWeight: 'bold',
-    fontSize: 29,
+    fontSize: 15,
     color: 'white',
   },
   picture:
@@ -157,4 +167,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#286086',
   },
 });
-export default LeagueProfile;
+export default Scoreboard;

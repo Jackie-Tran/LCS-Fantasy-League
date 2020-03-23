@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import LeaguesScreen from './LeaguesScreen';
+import LeaguesScreen from '../LeaguesScreen';
 
 // Navigation 
 const Tab = createBottomTabNavigator();

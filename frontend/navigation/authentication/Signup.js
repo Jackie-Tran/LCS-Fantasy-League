@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
-import Firebase from '../Firebase';
+import Firebase from '../../Firebase';
 
 class Signup extends Component {
   

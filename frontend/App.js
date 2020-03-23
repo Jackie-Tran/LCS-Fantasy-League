@@ -5,14 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import LoginScreen from './scenes/authentication/LoginScreen';
-import RegisterScreen from './scenes/authentication/RegisterScreen';
-import ForgotPasswordScreen from './scenes/authentication/ForgotPasswordScreen';
-
-import MainScreen from './scenes/MainScreen';
-import Login from './scenes/Login';
-import Signup from './scenes/Signup';
-import LeagueScreen from './scenes/LeagueScreen';
+import MainScreen from './navigation/screens/MainScreen';
+import Login from './navigation/authentication/Login';
+import Signup from './navigation/authentication/Signup';
+import LeagueScreen from './navigation/screens/LeagueScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // Navigation
 const Stack = createStackNavigator();
@@ -31,21 +28,23 @@ export default function App() {
   });
 
   return (
-    <NavigationContainer>
-      {
-        !authenticated ? (
-          <Stack.Navigator>
-            <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
-            <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
-          </Stack.Navigator>
-        ) : (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {
+          !authenticated ? (
             <Stack.Navigator>
-              <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
-              <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
+              <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
+              <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
             </Stack.Navigator>
-          )
-      }
-    </NavigationContainer>
+          ) : (
+              <Stack.Navigator>
+                <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
+                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
+              </Stack.Navigator>
+            )
+        }
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
