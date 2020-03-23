@@ -4,6 +4,11 @@ import { StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, To
 import Leaderboard from 'react-native-leaderboard';
 import { Dimensions } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import firebase from 'firebase';
+import axios from 'axios';
+import * as endpoints from '../../../constants/endpoints';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 class Scoreboard extends Component {
@@ -11,59 +16,70 @@ class Scoreboard extends Component {
   state =
     {
       data: [
-        {
-          userName: 'Danny', iconUrl:
-            "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ec405492-b7bb-4e17-af83-6902727e0271/dbt8wd0-476e1dad-49a7-4407-9fea-7bd3a8f3f3c3.png/v1/fill/w_829,h_829,q_80,strp/_league_of_legends__trundle_icon_by_hadefire_dbt8wd0-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODI5IiwicGF0aCI6IlwvZlwvZWM0MDU0OTItYjdiYi00ZTE3LWFmODMtNjkwMjcyN2UwMjcxXC9kYnQ4d2QwLTQ3NmUxZGFkLTQ5YTctNDQwNy05ZmVhLTdiZDNhOGYzZjNjMy5wbmciLCJ3aWR0aCI6Ijw9ODI5In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.qdlymyx6V6Aji67upz-DC-zF8hPbXHOSq6HrhYhgYbY", highScore: 100000000000
-        },
-        { userName: 'Joseph', iconUrl: 'https://i.redd.it/pab0fxmltgv01.jpg', highScore: 0 },
-        { userName: 'Jackie', iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png', highScore: -Infinity },
-        { userName: 'Jenny', iconUrl: 'https://4.bp.blogspot.com/-tdxpnSzbcZA/W3Mx4y8kiZI/AAAAAAABFV0/hF4o7DwC-L8oDKz7lGdA-wT5J8dYEu5ygCLcBGAs/s200/3599.jpg', highScore: 120 }]
+        // {
+        //   userName: 'Danny', iconUrl:
+        //     "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ec405492-b7bb-4e17-af83-6902727e0271/dbt8wd0-476e1dad-49a7-4407-9fea-7bd3a8f3f3c3.png/v1/fill/w_829,h_829,q_80,strp/_league_of_legends__trundle_icon_by_hadefire_dbt8wd0-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODI5IiwicGF0aCI6IlwvZlwvZWM0MDU0OTItYjdiYi00ZTE3LWFmODMtNjkwMjcyN2UwMjcxXC9kYnQ4d2QwLTQ3NmUxZGFkLTQ5YTctNDQwNy05ZmVhLTdiZDNhOGYzZjNjMy5wbmciLCJ3aWR0aCI6Ijw9ODI5In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.qdlymyx6V6Aji67upz-DC-zF8hPbXHOSq6HrhYhgYbY", highScore: 100000000000
+        // },
+        // { userName: 'Joseph', iconUrl: 'https://i.redd.it/pab0fxmltgv01.jpg', highScore: 0 },
+        // { userName: 'Jackie', iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png', highScore: -Infinity },
+        // { userName: 'Jenny', iconUrl: 'https://4.bp.blogspot.com/-tdxpnSzbcZA/W3Mx4y8kiZI/AAAAAAABFV0/hF4o7DwC-L8oDKz7lGdA-wT5J8dYEu5ygCLcBGAs/s200/3599.jpg', highScore: 120 }
+      ]
     }
 
   getPlayers = () => {
 
   }
 
-  componentDidMount() {
-
+  joinLeague = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in
+        axios.put(endpoints.ADDPLAYERTOLEAGUE_EP(this.props.route.params.data._id), {
+          uid: user.uid
+        })
+          .then(res => {
+            // Update the player list
+            console.log("added player");
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        // No user signed in
+        alert('no user signed in');
+      }
+    });
   }
+
+  componentDidMount() {
+    console.log('scoreboard');
+  }
+
+
 
   render() {
     return (
 
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title} >{this.props.route.params.data.name}</Text>
-        <Image style={styles.picture} source={require('../../../images/lcs.png')} />
-        {/* <View style={styles.view}>
-          <TouchableOpacity
-            style={styles.button}>
-            <Text style={styles.text} > Scoreboard </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}>
-            <Text style={styles.text} > Matchups </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button} onPress={() => this.props.navigation.navigate('My Team')}>
-            <Text style={styles.text} > My team </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button} onPress={() => this.props.navigation.navigate('Draft')}>
-            <Text style={styles.text} > Join Team </Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{this.props.route.params.data.name}</Text>
+          <Image style={styles.picture} source={require('../../../images/lcs.png')} />
+        </View>
+        <View style={styles.scoreboardContainer}>
+          <Text style={styles.subtext}>Current Standings</Text>
+          <Leaderboard
+            evenRowColor='#FF00FF'
+            oddRowColor='#A9A9A9'
+            data={this.state.data}
+            icon='iconUrl'
+            sortBy='highScore'
+            labelBy='userName' />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => this.joinLeague()}>
+            <Text>JOIN LEAGUE</Text>
           </TouchableOpacity>
         </View>
-        <Leaderboard
-          evenRowColor='#FF00FF'
-          oddRowColor='#A9A9A9'
-          data={this.state.data}
-          icon='iconUrl'
-          sortBy='highScore'
-          labelBy='userName' />
-        <View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>JOIN LEAGUE</Text>
-          </TouchableOpacity>
-        </View> */}
       </SafeAreaView>
     )
   }
@@ -78,31 +94,38 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 46,
+    textDecorationLine: 'underline',
     fontWeight: 'bold'
-  },  
-  view: {
+  },
+  titleContainer: {
     flex: 1,
-    alignItems: 'stretch',
-    flexDirection: 'row',
+  },
+  scoreboardContainer: {
+    alignContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  subtext: {
+    color: 'white',
+    fontSize: 32
+  },
+  buttonContainer: {
+    flex: 0.25,
+    justifyContent: 'center',
+    width: screenWidth,
+    alignItems: 'center'
   },
   button: {
-    borderColor: 'white', 
-    borderWidth: 2, 
+    borderColor: 'white',
+    borderWidth: 2,
     borderRadius: 10,
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
-    width: screenWidth / 2,
-    backgroundColor: 'orange'
-  },
-  text:
-  {
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: 'white',
+    backgroundColor: 'orange',
+    width: '40%',
+    height: '50%'
+
   },
   picture:
   {
@@ -110,61 +133,6 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     marginBottom: 0,
-  },
-  baseText:
-  {
-    fontFamily: 'Cochin',
-    marginVertical: 20,
-    color: "#FFFFFF"
-  },
-  base2Text:
-  {
-    fontFamily: 'Cochin',
-    marginVertical: 20,
-    color: "#FFFFFF",
-    fontWeight: 'bold'
-  },
-
-  SectionStyle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    margin: 10
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover', // or 'stretch'
-  },
-  ImageStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    alignItems: 'center'
-  },
-  logInButton: {
-    backgroundColor: '#FFFFFF',
-    color: '#000080',
-    borderRadius: 25,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 33,
-    marginTop: 20,
-    width: 300,
-    height: 40,
-    paddingHorizontal: 10,
-    borderRadius: 50,
-
-  },
-  inputStyle: {
-
-    marginTop: 20,
-    width: 300,
-    height: 40,
-    paddingHorizontal: 10,
-    borderRadius: 50,
-    backgroundColor: '#286086',
   },
 });
 export default Scoreboard;

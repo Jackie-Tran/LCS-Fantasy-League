@@ -14,13 +14,16 @@ const LeagueSchema = mongoose.Schema({
         required: true
     },
     players: {
-        type: [String],
+        type: [{
+            uid: { type: String, required: true },
+            score: 0
+        }],
         required: true
     },
-    activePros: {
-        type: [String],
+    teams: {
+        type: [[String]],
         required: true
-    },
+    }
 });
 
 module.exports = mongoose.leagues.model('League', LeagueSchema);

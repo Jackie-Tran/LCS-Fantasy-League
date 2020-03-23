@@ -37,7 +37,12 @@ router.get('/', (req, res, next) => {
 // Add player
 router.put('/:id/addPlayer', (req, res, next) => {
     // TODO: Should check if player id exists in db
-    League.updateOne({ _id: req.params.id }, { $addToSet: {"players": req.body.playerId} }, (err, league) => {
+    let player = {
+        uid: req.body.uid,
+        score: 0
+    };
+    console.log(player);
+    League.updateOne({ _id: req.params.id }, { $addToSet: {"players": player }}, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });

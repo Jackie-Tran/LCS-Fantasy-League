@@ -3,3 +3,4 @@ const PORT = '3000';
 
 export const GETLEAGUES_EP = 'http://' + HOST + ':' + PORT + '/leagues';
 export const GETPLAYERSBYROLE_EP = 'http://' + HOST + ':'+ PORT + '/players/getByRole/';
+export const ADDPLAYERTOLEAGUE_EP = ((id) => {return 'http://' + HOST + ':' + PORT + '/leagues/'+id+'/addPlayer'});
