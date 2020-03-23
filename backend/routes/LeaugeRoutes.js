@@ -37,7 +37,15 @@ router.get('/', (req, res, next) => {
 // Add player
 router.put('/:id/addPlayer', (req, res, next) => {
     // TODO: Should check if player id exists in db
-    League.updateOne({ _id: req.params.id }, { "$addToSet": {"players": req.body.playerId} }, (err, league) => {
+    League.updateOne({ _id: req.params.id }, { $addToSet: {"players": req.body.playerId} }, (err, league) => {
+        if (err) return res.json(err);
+        return res.json(league);
+    });
+});
+
+// Remove player
+router.put('/:id/removePlayer/:uid', (req, res, next) => {
+    League.updateOne({ _id: req.params.id }, { $pull: { "players": req.params.uid.toString() }}, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });
@@ -55,14 +63,6 @@ router.put('/:id/addPro', (req, res, next) => {
 // Update max players
 router.put('/:id/maxPlayers', (req, res, next) => {
     League.updateOne({ _id: req.params.id }, req.body, (err, league) => {
-        if (err) return res.json(err);
-        return res.json(league);
-    });
-});
-
-// Remove player
-router.delete('/:id/removePlayer/:playerId', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { "$pull": {"players": req.params.playerId} }, {multi: true}, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });
