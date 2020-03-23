@@ -15,7 +15,6 @@ class LeaguesScreen extends React.Component {
         axios.get(endpoints.GETLEAGUES_EP)
         .then(res => {
             this.setState({leagues: res.data});
-            console.log(this.state);
         })
         .catch(err => {
             console.log(err);

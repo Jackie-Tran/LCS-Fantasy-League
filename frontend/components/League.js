@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import firebase from 'firebase';
+
 
 let fullWidth = Dimensions.get('window').width;
 let fullHeight = Dimensions.get('window').height;
@@ -9,7 +11,9 @@ let fullHeight = Dimensions.get('window').height;
 const League = (props) => {
 
     return (
-      <TouchableOpacity style={styles.container} onPress={() => props.gotoLeague(props.data)}>
+      <TouchableOpacity style={styles.container} onPress={() => {firebase.auth().onAuthStateChanged(
+          (user) => { console.log(user.providerData) });
+          props.gotoLeague(props.data)}}>
         <Image style={styles.image} source={require('../assets/league_icon.png')}/>
         <View style={styles.data}>
             <Text style={styles.title}>{props.data.name}</Text>

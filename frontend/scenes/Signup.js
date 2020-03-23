@@ -12,11 +12,23 @@ class Signup extends Component {
 
 
   handleSignUp = () => {
-    const { email, password } = this.state
-    Firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => this.props.route.params.setAuthenticated(true))
-      .catch(error => console.log(error))
+    const { name, email, password } = this.state;
+    Firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(({user}) => {
+      if (user) {
+        user.updateProfile({
+          displayName: name,
+        }).catch((err) => {console.log(err)});
+        this.props.route.params.setAuthenticated(true);
+      }
+    })
+    .catch((err) => {
+      alert(err);
+    });
+    // Firebase.auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(() => this.props.route.params.setAuthenticated(true))
+    //   .catch(error => console.log(error))
   }
   render() {
     return (
