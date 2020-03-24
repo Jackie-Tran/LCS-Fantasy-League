@@ -27,7 +27,22 @@ class Scoreboard extends Component {
     }
 
   getPlayers = () => {
-
+    axios.get(endpoints.GETPLAYERSINLEAGUE_EP(this.props.route.params.data._id))
+    .then( ({ data }) => {
+      data.forEach(player => {
+        let newPlayer = {
+          userName: player.uid,
+          iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
+          score: player.score
+        }
+        this.setState({
+          data: [...this.state.data, newPlayer]
+        });
+      });
+    })
+    .catch( err => {
+      // console.log(err);
+    })
   }
 
   joinLeague = () => {
@@ -40,9 +55,10 @@ class Scoreboard extends Component {
           .then(res => {
             // Update the player list
             console.log("added player");
+            this.getPlayers();
           })
           .catch(err => {
-            console.log(err);
+            alert('User is already in this league');
           });
       } else {
         // No user signed in
@@ -52,7 +68,9 @@ class Scoreboard extends Component {
   }
 
   componentDidMount() {
-    console.log('scoreboard');
+    this.getPlayers();
+    // console.log(this.state);
+    // Check if the current user is in the league
   }
 
 
