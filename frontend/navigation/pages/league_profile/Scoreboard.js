@@ -67,6 +67,20 @@ class Scoreboard extends Component {
     });
   }
 
+  isInLeague = () => {
+    // Get current user
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // Check if user is in the league
+        this.setState({
+          currentUser: user.uid
+        });
+      } else {
+        alert("You are not signed in");
+      }
+    });
+  }
+
   componentDidMount() {
     this.getPlayers();
     // console.log(this.state);
@@ -94,6 +108,9 @@ class Scoreboard extends Component {
             labelBy='userName' />
         </View>
         <View style={styles.buttonContainer}>
+          {
+            
+          }
           <TouchableOpacity style={styles.button} onPress={() => this.joinLeague()}>
             <Text>JOIN LEAGUE</Text>
           </TouchableOpacity>
