@@ -35,40 +35,40 @@ class MyTeam extends Component {
         player: 'Bjersen',
         Team: 'TSM',
         Cost: '1,000,000',
-        imagePlaceHolder: require('../images/bjerg.jpg'),
-        imagePlaceHolder2: require('../images/Bottom_icon.png')
+        imagePlaceHolder: require('../../../images/bjerg.jpg'),
+        imagePlaceHolder2: require('../../../images/Bottom_icon.png')
       },
       {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
         player: 'Doublift',
         Team: 'TSM',
         Cost: '1,000,000',
-        imagePlaceHolder: require('../images/double.jpg'),
-        imagePlaceHolder2: require('../images/Bottom_icon.png')
+        imagePlaceHolder: require('../../../images/double.jpg'),
+        imagePlaceHolder2: require('../../../images/Bottom_icon.png')
       },
       {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
         player: 'Svenskeren',
         Team: 'TSM',
         Cost: '1,000,000',
-        imagePlaceHolder: require('../images/sven.jpg'),
-        imagePlaceHolder2: require('../images/Bottom_icon.png')
+        imagePlaceHolder: require('../../../images/sven.jpg'),
+        imagePlaceHolder2: require('../../../images/Bottom_icon.png')
       },
       {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
         player: 'BioFrost',
         Team: 'TSM',
         Cost: '1,000,000',
-        imagePlaceHolder: require('../images/bio.jpg'),
-        imagePlaceHolder2: require('../images/Bottom_icon.png')
+        imagePlaceHolder: require('../../../images/bio.jpg'),
+        imagePlaceHolder2: require('../../../images/Bottom_icon.png')
       },
       {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
         player: 'Hauntzer',
         Team: 'TSM',
         Cost: '1,000,000',
-        imagePlaceHolder: require('../images/haunt.jpg'),
-        imagePlaceHolder2: require('../images/Bottom_icon.png')
+        imagePlaceHolder: require('../../../images/haunt.jpg'),
+        imagePlaceHolder2: require('../../../images/Bottom_icon.png')
       },
     ];
   }

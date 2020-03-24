@@ -8,14 +8,15 @@ import * as endpoints from '../constants/endpoints';
 class LeaguesScreen extends React.Component {
 
     state = {
-        leagues: []
+        leagues: [],
+        isRefreshing: false,
     }
 
     getLeagues = () => {
+        this.setState({ isRefreshing: true });
         axios.get(endpoints.GETLEAGUES_EP)
         .then(res => {
-            this.setState({leagues: res.data});
-            console.log(this.state);
+            this.setState({leagues: res.data, isRefreshing: false});
         })
         .catch(err => {
             console.log(err);
@@ -33,7 +34,7 @@ class LeaguesScreen extends React.Component {
     render() {
         return (
         <SafeAreaView style={styles.container}>
-            <FlatList data={this.state.leagues} renderItem={ ({ item }) => (
+            <FlatList refreshing={this.state.isRefreshing} onRefresh={() => this.getLeagues()} data={this.state.leagues} renderItem={ ({ item }) => (
                 <League data={item} gotoLeague={this.gotoLeague}/>
             )}/>
         </SafeAreaView>

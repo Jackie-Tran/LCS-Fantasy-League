@@ -21,7 +21,7 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image style={{ width: 300, height: 300 }} source={require('../images/lcs.png')} />
+        <Image style={{ width: 300, height: 300 }} source={require('../../images/lcs.png')} />
         <TextInput placeholder="Enter Email"
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
