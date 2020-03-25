@@ -42,9 +42,16 @@ class Login extends Component {
         </TouchableOpacity>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.baseText}>Dont have an account?</Text>
-          <Button style={styles.baseText} title="Sign Up Now" onPress={() => this.props.navigation.navigate('Signup')}/>
+          <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Signup')}>
+          <Text style={styles.base2Text}  >Signup Now</Text>
+        </TouchableOpacity>
         </View>
-        <Button style={styles.base2Text} title="Forgot Password?" />
+        
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+          <Text style={styles.base2Text}  >Forgot Your Password </Text>
+        </TouchableOpacity>
       </View>
 
     );

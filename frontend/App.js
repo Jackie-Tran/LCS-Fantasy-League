@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MainScreen from './navigation/screens/MainScreen';
 import Login from './navigation/authentication/Login';
 import Signup from './navigation/authentication/Signup';
+import ForgotPassword from './navigation/authentication/ForgotPasswordScreen';
 import LeagueScreen from './navigation/screens/LeagueScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -35,6 +36,7 @@ export default function App() {
             <Stack.Navigator>
               <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
               <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
+              <Stack.Screen name="ForgotPassword" initialParams={{ setAuthenticated }} component={ForgotPassword} />
             </Stack.Navigator>
           ) : (
               <Stack.Navigator>
