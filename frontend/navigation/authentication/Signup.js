@@ -5,22 +5,28 @@ import Firebase from '../../Firebase';
 class Signup extends Component {
   
   state = {
-    name: '',
+    displayName: '',
     email: '',
     password: ''
   };
 
 
   handleSignUp = () => {
-    const { name, email, password } = this.state;
+    const { displayName, email, password } = this.state;
     Firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(({user}) => {
       if (user) {
         user.updateProfile({
-          displayName: name,
-        }).catch((err) => {console.log(err)});
+          displayName: displayName,
+          photoURL : "https://assets.entrepreneur.com/content/3x2/2000/20190502194704-ent19-june-editorsnote.jpeg"
+        }
+        ).then(({user}) => {
+          console.log(user.displayName)
+        }) 
+        .catch((err) => {console.log(err)});
         this.props.route.params.setAuthenticated(true);
       }
+      console.log(user);
     })
     .catch((err) => {
       alert(err);
@@ -40,8 +46,8 @@ class Signup extends Component {
           secureTextEntry={false}
           placeholderTextColor="#FFFFFF"
           style={styles.inputStyle}
-          value={this.state.name}
-          onChangeText={name => this.setState({ name })} />
+          value={this.state.displayName}
+          onChangeText={displayName => this.setState({ displayName })} />
 
         <TextInput placeholder="Enter Email"
           secureTextEntry={false}
