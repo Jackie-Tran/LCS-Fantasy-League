@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
-import Firebase from '../../Firebase';
+import Firebase, { db } from '../../Firebase';
 
 class Signup extends Component {
   
+  dbRef = Firebase.firestore().collection('users');
   state = {
-    displayName: '',
-    email: '',
-    password: ''
+    title: '',
+    author: '',
+    mobile: '',
+    isLoading: false
   };
-
 
   handleSignUp = () => {
     const { displayName, email, password } = this.state;
+    this.dbRef = Firebase.firestore().collection('users');
     Firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(({user}) => {
       if (user) {
@@ -21,7 +23,7 @@ class Signup extends Component {
           photoURL : "https://assets.entrepreneur.com/content/3x2/2000/20190502194704-ent19-june-editorsnote.jpeg"
         }
         ).then(({user}) => {
-          console.log(user.displayName)
+          
         }) 
         .catch((err) => {console.log(err)});
         this.props.route.params.setAuthenticated(true);
@@ -70,7 +72,7 @@ class Signup extends Component {
           style={styles.inputStyle}
         />
         <TouchableOpacity
-          onPress={this.handleSignUp}>
+          onPress={this.handleSignUp.bind(this)}>
           <Text style={styles.logInButton}  >Signup </Text>
         </TouchableOpacity>
       </View>
