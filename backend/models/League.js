@@ -24,6 +24,11 @@ const LeagueSchema = mongoose.Schema({
     teams: {
         type: [[String]],
         required: true
+    },
+    draftStarted: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 });
 

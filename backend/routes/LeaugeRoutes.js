@@ -41,7 +41,6 @@ router.put('/:id/addPlayer', (req, res, next) => {
         username: req.body.username,
         score: 0
     };
-    console.log(player);
     League.findOne({ _id: req.params.id }, (err, league) => {
         if (err) return res.json(league);
         // Check if league is full
@@ -111,6 +110,22 @@ router.delete('/:id', (req, res, next) => {
         if (!league) return res.sendStatus(404);
         if (err) return res.json(err);
         if (league) return res.json(league);
+    });
+});
+
+// Start Draft
+router.patch('/id/startDraft', (req, res, next) => {
+    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": true } }, (err, league) => {
+        if (err) return res.json(err);
+        return res.json(league);
+    });
+});
+
+// Cancel Draft
+router.patch('/id/endDraft', (req, res, next) => {
+    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": false } }, (err, league) => {
+        if (err) return res.json(err);
+        return res.json(league);
     });
 });
 
