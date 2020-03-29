@@ -60,7 +60,7 @@ router.put('/:id/addPlayer', (req, res, next) => {
 
 // Remove player
 router.put('/:id/removePlayer/:uid', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { $pull: { "players": req.params.uid.toString() } }, (err, league) => {
+    League.updateOne({ _id: req.params.id }, { $pull: { "players": {"uid": req.params.uid} } }, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });
