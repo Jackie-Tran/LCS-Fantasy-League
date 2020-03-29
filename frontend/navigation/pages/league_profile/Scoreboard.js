@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
+import { Alert, StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
 import Leaderboard from 'react-native-leaderboard';
 import { Dimensions } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,7 +35,8 @@ class Scoreboard extends Component {
         });
         data.forEach(player => {
           let newPlayer = {
-            userName: player.uid,
+            uid: player.uid,
+            userName: player.username,
             iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
             score: player.score
           }
@@ -66,9 +67,12 @@ class Scoreboard extends Component {
   joinLeague = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        let uid = user.uid;
+        let username = user.providerData[0].displayName.toString();
         // User is signed in
         axios.put(endpoints.ADDPLAYERTOLEAGUE_EP(this.props.route.params.data._id), {
-          uid: user.uid
+          uid: uid,
+          username: username,
         })
           .then(res => {
             // Update the player list
@@ -76,7 +80,8 @@ class Scoreboard extends Component {
             this.getPlayers();
           })
           .catch(err => {
-            alert('User is already in this league');
+            Alert.alert("Join Error", err.response.data);
+            // alert('User is already in this league');
           });
       } else {
         // No user signed in
@@ -101,7 +106,7 @@ class Scoreboard extends Component {
     // check if current UID is in the data
     let numPlayers = this.state.data.length;
     for (let i = 0; i < numPlayers; i++) {
-      if (this.state.data[i].userName == this.state.currentUID) {
+      if (this.state.data[i].uid == this.state.currentUID) {
         return true;
       }
     }

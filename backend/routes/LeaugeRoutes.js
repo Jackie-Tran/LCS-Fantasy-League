@@ -38,10 +38,16 @@ router.get('/', (req, res, next) => {
 router.put('/:id/addPlayer', (req, res, next) => {
     let player = {
         uid: req.body.uid,
+        username: req.body.username,
         score: 0
     };
+    console.log(player);
     League.findOne({ _id: req.params.id }, (err, league) => {
         if (err) return res.json(league);
+        // Check if league is full
+        if (league.players.length == league.maxPlayers) {
+            return res.status(400).send("League is full");
+        }
         // Check if player is already in the league
         for (let i = 0; i < league.players.length; i++) {
             if (league.players[i].uid == player.uid) {
