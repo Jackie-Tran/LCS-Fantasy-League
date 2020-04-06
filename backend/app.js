@@ -7,12 +7,12 @@ app.use(bodyParser.json());
 require('dotenv/config');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("./serviceAccountKey");
+//const serviceAccount = require("./serviceAccountKey");
 // Firebase
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://cookieproject-bb832.firebaseio.com"
-});
+//admin.initializeApp({
+  //  credential: admin.credential.cert(serviceAccount),
+   // databaseURL: "https://cookieproject-bb832.firebaseio.com"
+//});
 
 // Import Endpoints
 const proPlayersRoute = require('./routes/ProPlayerRoutes');

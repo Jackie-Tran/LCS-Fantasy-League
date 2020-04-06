@@ -71,7 +71,6 @@ const CustomDrawerContent = props => {
       />
       <DrawerItem
         label="My Profile"
-        onPress={() => props.navigation.navigate("Profile")}
         icon={() => <AntDesign name="message1" color="black" size={16} />}
       />
       </Block>

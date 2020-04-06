@@ -24,7 +24,7 @@ class LeaguesScreen extends React.Component {
     }
 
     gotoLeague = (league) => {
-        this.props.navigation.navigate('League', { data: league });
+        this.props.navigation.navigate('League', { data: league});
     }
 
     componentDidMount() {

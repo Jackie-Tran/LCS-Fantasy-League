@@ -23,6 +23,11 @@ const LeagueSchema = mongoose.Schema({
     teams: {
         type: [[String]],
         required: true
+    },
+    matchups:
+    {
+        type : [[String]],
+        required: true
     }
 });
 

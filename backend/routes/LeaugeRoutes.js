@@ -74,6 +74,14 @@ router.get('/:id/players', (req, res, next) => {
     });
 });
 
+// Get matchups in league
+router.get('/:id/matchups', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
+        if (err) return "stupid";
+        return res.json(league.matchups);
+    });
+});
+
 // Add pro
 router.put('/:id/addPro', (req, res, next) => {
     // TODO: Should check if player id exists in db
