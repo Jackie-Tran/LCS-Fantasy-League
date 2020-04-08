@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, Text, View, Button, TextInput, TouchableH
 import { AppRegistry, Dimensions, FlatList, Image } from 'react-native';
 
 import Constants from 'expo-constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 function Item({ player, Team, Cost, position, position2 }) {
@@ -75,7 +76,7 @@ class MyTeam extends Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: '#171e24' }}>
+      <SafeAreaView style={{ backgroundColor: '#171e24' }}>
         <View>
           <Text style={styles.text}> Your Lineup </Text>
         </View>
@@ -84,7 +85,7 @@ class MyTeam extends Component {
           keyExtractor={item => item.id} />
 
 
-      </View>
+      </SafeAreaView>
     );
   };
 }

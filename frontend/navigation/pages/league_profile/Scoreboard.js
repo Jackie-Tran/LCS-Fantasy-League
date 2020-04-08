@@ -27,31 +27,24 @@ class Scoreboard extends Component {
     }
 
   getPlayers = () => {
-    console.log('getting players');
-    axios.get(endpoints.GETPLAYERSINLEAGUE_EP(this.props.route.params.data._id))
-      .then(({ data }) => {
-        this.setState({
-          data: []
-        });
-        data.forEach(player => {
-          let newPlayer = {
-            uid: player.uid,
-            userName: player.username,
-            iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
-            score: player.score
-          }
-          this.setState({
-            data: [...this.state.data, newPlayer]
-          });
-        });
-      })
-      .catch(err => {
-        // console.log(err);
-      })
+    this.setState({
+      data: []
+    });
+    this.props.route.params.data.players.forEach(player => {
+      let newPlayer = {
+        uid: player.uid,
+        userName: player.username,
+        iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
+        score: player.score
+      }
+      console.log(newPlayer);
+      let newData = this.state.data;
+      newData.push(newPlayer);
+      this.setState({
+        data: [...this.state.data, newPlayer],
+      });
+    });
   }
-
-  
-
   getCurrentUser = () => {
     console.log('Getting current user');
     firebase.auth().onAuthStateChanged((user) => {
@@ -102,7 +95,6 @@ class Scoreboard extends Component {
   }
 
   checkIfInLeauge = () => {
-    console.log('Check if in league');
     // check if current UID is in the data
     let numPlayers = this.state.data.length;
     for (let i = 0; i < numPlayers; i++) {
@@ -114,7 +106,6 @@ class Scoreboard extends Component {
   }
 
   generateButton = () => {
-    console.log("generateButton");
     if (this.checkIfInLeauge()) {
       return (
         <TouchableOpacity style={styles.button} onPress={() => this.leaveLeague()}>
@@ -133,8 +124,6 @@ class Scoreboard extends Component {
   componentDidMount() {
     this.getPlayers();
     this.getCurrentUser();
-    // this.isInLeague();
-    // Check if the current user is in the league
   }
 
   render() {
@@ -157,7 +146,7 @@ class Scoreboard extends Component {
         </View>
         <View style={styles.buttonContainer}>
           {this.generateButton()}
-          <TouchableOpacity style={styles.button} onPress={() => { console.log("CURRENT STATE"); console.log(this.state) }}>
+          <TouchableOpacity style={styles.button} onPress={() => { console.log("CURRENT STATE"); console.log(this.props.route.params.data) }}>
             <Text>State</Text>
           </TouchableOpacity>
         </View>
