@@ -30,12 +30,12 @@ class DraftPage extends Component {
     axios.put(endpoints.ADDPROTOLEAGUE_EP(this.props.route.params.data._id), {
       proId: this.state.selectedPro
     })
-    .then( res => {
+      .then(res => {
 
-    })
-    .catch(err => {
+      })
+      .catch(err => {
 
-    });
+      });
   }
 
   selectPro = (proId) => {
@@ -44,14 +44,7 @@ class DraftPage extends Component {
     });
   }
 
-  componentDidMount() {
-    // When the page loads
-    this.getPlayersByRole(this.state.currentRole);
-    this.setState({ draftStarted: this.props.route.params.data.draftStarted });
-    console.log(this.props.route.params.data);
-  }
-
-  render() {
+  createDraftUi = () => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -78,7 +71,7 @@ class DraftPage extends Component {
           </View>
           {/* Players */}
           <FlatList data={this.state.players} renderItem={({ item }) => (
-            <Player ign={item.ign} team={item.team} role={item.role} id={item._id} selectPro={this.selectPro}/>
+            <Player ign={item.ign} team={item.team} role={item.role} id={item._id} selectPro={this.selectPro} />
           )} />
         </View>
         <View style={styles.footer}>
@@ -90,6 +83,36 @@ class DraftPage extends Component {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+    );
+  }
+
+  createDraftNotAvailableUi = () => {
+    return (
+      <SafeAreaView style={styles.container}>
+          <Text style={styles.text, styles.notification}>Draft hasn't started or is over.</Text>
+      </SafeAreaView>
+    );
+  }
+
+  generateUi = () => {
+    if (this.state.draftStarted) {
+      return this.createDraftUi();
+    } else {
+      return this.createDraftNotAvailableUi();
+    }
+  }
+
+  componentDidMount() {
+    // When the page loads
+    this.getPlayersByRole(this.state.currentRole);
+    this.setState({ draftStarted: this.props.route.params.data.draftStarted });
+    console.log(this.props.route.params.data);
+  }
+
+  render() {
+    return (
+
+      this.generateUi()
     );
   };
 }
@@ -154,6 +177,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
+    color: 'white'
+  },
+  notification: {
+    fontSize: 27,
+    fontWeight: 'bold',
     color: 'white'
   }
 });

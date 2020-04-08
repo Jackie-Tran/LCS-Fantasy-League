@@ -114,14 +114,14 @@ router.delete('/:id', (req, res, next) => {
 });
 
 // Start Draft
-router.patch('/id/startDraft', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": true } }, (err, league) => {
+router.patch('/:id/draft', (req, res, next) => {
+    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": req.body.draftStarted } }, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });
 });
 
-// Cancel Draft
+// Stop Draft
 router.patch('/id/endDraft', (req, res, next) => {
     League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": false } }, (err, league) => {
         if (err) return res.json(err);
