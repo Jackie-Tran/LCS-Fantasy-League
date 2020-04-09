@@ -79,6 +79,20 @@ router.get('/:id/players', (req, res, next) => {
     });
 });
 
+// Get pros in league
+router.get('/:id/getPros', (req, res, next) => {
+    let pros = [];
+    League.findById(req.params.id, (err, league) => {
+        if (err) return res.json(err);
+        league.players.forEach(player => {
+            player.team.forEach(pro => {
+                pros.push(pro);
+            });
+        });
+        return res.json(pros);
+    });
+});
+
 // Add pro
 router.put('/:id/:uid/addPro', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {

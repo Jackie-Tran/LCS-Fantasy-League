@@ -14,11 +14,11 @@ class Draft extends Component {
   state = {
     searchBar: '',
     currentRole: 'top',
-    players: []
+    pros: [],
+    isRefreshing: false,
   }
 
   getCurrentUser = () => {
-    console.log('Getting current user');
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // user exists
@@ -30,9 +30,24 @@ class Draft extends Component {
   }
 
   getPlayersByRole = (role) => {
+    this.setState({currentRole: role});
     axios.get(endpoints.GETPLAYERSBYROLE_EP + role)
       .then(res => {
-        this.setState({ players: res.data });
+        let pros = res.data;
+        let availablePros = pros.filter(pro => {return !this.state.activePros.includes(pro.ign);});
+        this.setState({ 
+          pros: availablePros
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getProsInLeague = () => {
+    axios.get(endpoints.GETPROSINLEAGUE_EP(this.props.route.params.data._id))
+      .then(res => {
+        this.setState({ activePros: res.data });
       })
       .catch(err => {
         console.log(err);
@@ -49,6 +64,8 @@ class Draft extends Component {
           'You have successfully drafted ' + this.state.selectedPro.ign + ' to your team.',
           ['Ok'],
         );
+        this.getProsInLeague();
+        this.getPlayersByRole(this.state.currentRole);
       })
       .catch(err => {
         alert(err.response.data);
@@ -72,8 +89,8 @@ class Draft extends Component {
       'Confirm Lockin',
       'Are you sure you want to lockin ' + this.state.selectedPro.ign,
       [
-        {text: 'Yes', onPress: () => this.addProToTeam()},
-        {text: 'No', onPress: () => console.log("No pressed")},
+        { text: 'Yes', onPress: () => this.addProToTeam() },
+        { text: 'No', onPress: () => console.log("No pressed") },
       ],
       { cancelable: false }
     )
@@ -105,7 +122,7 @@ class Draft extends Component {
             </TouchableOpacity>
           </View>
           {/* Players */}
-          <FlatList data={this.state.players} renderItem={({ item }) => (
+          <FlatList data={this.state.pros} renderItem={({ item }) => (
             <Player ign={item.ign} team={item.team} role={item.role} id={item._id} selectPro={this.selectPro} />
           )} />
         </View>
@@ -124,7 +141,7 @@ class Draft extends Component {
   createDraftNotAvailableUi = () => {
     return (
       <SafeAreaView style={styles.container}>
-          <Text style={styles.text, styles.notification}>Draft hasn't started or is over.</Text>
+        <Text style={styles.text, styles.notification}>Draft hasn't started or is over.</Text>
       </SafeAreaView>
     );
   }
@@ -139,6 +156,7 @@ class Draft extends Component {
 
   componentDidMount() {
     // When the page loads
+    this.getProsInLeague();
     this.getPlayersByRole(this.state.currentRole);
     this.setState({ draftStarted: this.props.route.params.data.draftStarted });
     // Get current user
