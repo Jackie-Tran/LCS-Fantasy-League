@@ -95,8 +95,21 @@ router.get('/:id/getPros', (req, res, next) => {
 
 // Add pro
 router.put('/:id/:uid/addPro', (req, res, next) => {
+
     League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
+        // Check if its your turn
+        let pickIndex = league.pickIndex;
+        for (let i = 0; i < league.players.length; i++) {
+            // Find the player trying to add the pro and check if their index is the pickIndex
+            if (league.players[i].uid == req.params.uid) {
+                if (i != pickIndex) {
+                    return res.status(401).send("It is not your turn to draft yet.");
+                } else {
+                    break;
+                }
+            }
+        }
         // Check if pro is on a team already
         for (let i = 0; i < league.players.length; i++) {
             for (let j = 0; j < league.players[i].team.length; j++) {

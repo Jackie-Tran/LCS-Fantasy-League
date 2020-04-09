@@ -156,9 +156,12 @@ class Draft extends Component {
 
   componentDidMount() {
     // When the page loads
+    // TODO: fix asynchronous calls (if getProsInleague doesnt finish before getPlayersByRole, we get error and no pros are displayed)
     this.getProsInLeague();
     this.getPlayersByRole(this.state.currentRole);
-    this.setState({ draftStarted: this.props.route.params.data.draftStarted });
+    this.setState({ 
+      draftStarted: this.props.route.params.data.draftStarted,
+    });
     // Get current user
     this.getCurrentUser();
   }
