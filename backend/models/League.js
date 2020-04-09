@@ -18,7 +18,7 @@ const LeagueSchema = mongoose.Schema({
             uid: { type: String, required: true },
             username: { type: String, required: true },
             score: 0,
-            team: { type: [[String]], required: true },
+            team: { type: [String], required: true },
         }],
         required: true
     },
