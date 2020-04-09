@@ -79,13 +79,14 @@ router.get('/:id/players', (req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
 // Get matchups in league
 router.get('/:id/matchups', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {
         if (err) return "stupid";
         return res.json(league.matchups);
-=======
+    });
+});
+
 // Get pros in league
 router.get('/:id/getPros', (req, res, next) => {
     let pros = [];
@@ -97,7 +98,6 @@ router.get('/:id/getPros', (req, res, next) => {
             });
         });
         return res.json(pros);
->>>>>>> feature/draft
     });
 });
 

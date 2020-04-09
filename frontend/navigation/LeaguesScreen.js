@@ -26,14 +26,8 @@ class LeaguesScreen extends React.Component {
         });
     }
 
-<<<<<<< HEAD
-    gotoLeague = (league) => {
-        this.props.navigation.navigate('League', { data: league});
-=======
     gotoLeague = (league, uid) => {
-        console.log('Go To League');
         this.props.navigation.navigate('League', { data: league, uid: uid });
->>>>>>> feature/draft
     }
 
     componentDidMount() {

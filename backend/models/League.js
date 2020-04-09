@@ -22,16 +22,6 @@ const LeagueSchema = mongoose.Schema({
         }],
         required: true
     },
-<<<<<<< HEAD
-    teams: {
-        type: [[String]],
-        required: true
-    },
-    matchups:
-    {
-        type : [[String]],
-        required: true
-=======
     draftStarted: {
         type: Boolean,
         required: true,
@@ -44,7 +34,6 @@ const LeagueSchema = mongoose.Schema({
     reversePick: {
         type: Boolean,
         default: false,
->>>>>>> feature/draft
     }
 });
 

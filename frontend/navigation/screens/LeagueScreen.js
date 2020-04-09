@@ -11,14 +11,9 @@ const LeagueScreen = ({ route }) => {
     return (
         <Tab.Navigator tabBarPosition='bottom'>
             <Tab.Screen name="Scoreboard" initialParams={{ data: route.params.data }} component={Scoreboard}/>
-<<<<<<< HEAD
-            <Tab.Screen name="Matches" initialParams={{ data: route.params.data }} component={Matches} />
-            <Tab.Screen name="My Team" component={MyTeam}/>
-=======
             <Tab.Screen name="Matches" component={Matches}/>
             <Tab.Screen name="My Team" initialParams={{ data: route.params.data, uid: route.params.uid }} component={MyTeam}/>
             <Tab.Screen name="Draft" initialParams={{ data: route.params.data, uid: route.params.uid }} component={Draft}/>
->>>>>>> feature/draft
         </Tab.Navigator>
     );
 }
