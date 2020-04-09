@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet,Alert, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
 
 import * as  firebase from 'firebase'
 
@@ -16,7 +16,29 @@ class Login extends Component {
     const { email, password } = this.state
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => this.props.route.params.setAuthenticated(true))
-      .catch(error => console.log(error))
+      .catch(error=>
+      {
+        let errorCode = error.code; 
+        console.log(errorCode)
+        if (errorCode === 'auth/invalid-email') 
+        {
+          Alert.alert(
+            'Invalid Email'
+         )
+        }
+        else if (errorCode === 'auth/wrong-password') 
+        {
+          Alert.alert(
+            'Wrong Password Try Again'
+         )
+        }
+        else 
+        {
+          this.props.navigation.navigate('Login')
+        }
+      });
+      
+      
   }
   render() {
     return (

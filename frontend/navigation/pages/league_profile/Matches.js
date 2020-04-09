@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
 const Matches = ({ route }) => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="iMatch" options={{ headerShown: false }}  initialParams={{ data: route.params.data }} component={iMatch} />
-        <Stack.Screen name="thisLeaguesMatches" options={{ headerShown: false }} initialParams={{ data: route.params.data }}  component={thisLeaguesMatches} />
+            <Stack.Screen name="thisLeaguesMatches" options={{ headerShown: false }} initialParams={{ data: route.params.data }}  component={thisLeaguesMatches} />
+           <Stack.Screen name="iMatch" options={{ headerShown: true,headerTitle:"All Matchups" }}  initialParams={{ data: route.params.data }} component={iMatch} />
 
       </Stack.Navigator>
     );

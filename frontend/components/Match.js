@@ -11,7 +11,8 @@ let fullHeight = Dimensions.get('window').height;
 const Match= (props) => {
 
     return (
-      <TouchableOpacity style={styles.container} >
+      <TouchableOpacity style={styles.container}onPress={() => 
+        props.gotoMatch(props.data)} >
 
         <View style={{flex: 1,justifyContent:"center", alignItems:"center" , flexDirection: 'column'}}>
             <View style ={{flex:1, flexDirection: 'row',alignItems:'space-around' ,alignContent: 'space-around' }}>

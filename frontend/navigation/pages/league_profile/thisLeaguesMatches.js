@@ -17,7 +17,7 @@ class Matches extends React.Component {
 
     getMatchups= () => {
         this.setState({ isRefreshing: true });
-        console.log("THIS IS ME  "+  this.props.route.params.data._id)
+        console.log("THIS IS ME  "+  this.props.route.params.data)
         axios.get(endpoints.GETMATCHUPSTOLEAGUE_EP(this.props.route.params.data._id))        
         .then(res => {
             this.setState({weeksMatchups: res.data, isRefreshing: false});
@@ -30,7 +30,8 @@ class Matches extends React.Component {
     }
 
     gotoMatch = (match) => {
-        this.props.navigation.navigate('iMatch', { data: league });
+        console.log('HOW MUCH DO I REALLY KNOW')
+        this.props.navigation.navigate('iMatch', { data: match});
     }
 
     //   getMatchups= () => {
@@ -53,18 +54,13 @@ class Matches extends React.Component {
         
         this.getMatchups();
         
-    }
-    calculateMatchups(week)
-    {
-          
-    }; 
+    } 
 
     render() {
         return (
             
         <SafeAreaView style={styles.container}>
             <FlatList refreshing={this.state.isRefreshing} onRefresh={() => this.getMatchups()} data={this.state.weeksMatchups} renderItem={ ({ item }) => (
-        
                 <Match data={item} gotoMatch={this.gotoMatch}/>
             )}/>
         </SafeAreaView>
