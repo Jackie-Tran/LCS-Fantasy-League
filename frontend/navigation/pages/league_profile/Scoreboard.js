@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
+import { Alert, StyleSheet, Header, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
 import Leaderboard from 'react-native-leaderboard';
 import { Dimensions } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,30 +27,45 @@ class Scoreboard extends Component {
     }
 
   getPlayers = () => {
-    axios.get(endpoints.GETPLAYERSINLEAGUE_EP(this.props.route.params.data._id))
-    .then( ({ data }) => {
-      data.forEach(player => {
-        let newPlayer = {
-          userName: player.uid,
-          iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
-          score: player.score
-        }
-        this.setState({
-          data: [...this.state.data, newPlayer]
-        });
+    this.setState({
+      data: []
+    });
+    this.props.route.params.data.players.forEach(player => {
+      let newPlayer = {
+        uid: player.uid,
+        userName: player.username,
+        iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
+        score: player.score
+      }
+      console.log(newPlayer);
+      let newData = this.state.data;
+      newData.push(newPlayer);
+      this.setState({
+        data: [...this.state.data, newPlayer],
       });
-    })
-    .catch( err => {
-      // console.log(err);
-    })
+    });
+  }
+  getCurrentUser = () => {
+    console.log('Getting current user');
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // user exists
+        this.setState({
+          currentUID: user.uid
+        })
+      }
+    });
   }
 
   joinLeague = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        let uid = user.uid;
+        let username = user.providerData[0].displayName.toString();
         // User is signed in
         axios.put(endpoints.ADDPLAYERTOLEAGUE_EP(this.props.route.params.data._id), {
-          uid: user.uid
+          uid: uid,
+          username: username,
         })
           .then(res => {
             // Update the player list
@@ -58,7 +73,8 @@ class Scoreboard extends Component {
             this.getPlayers();
           })
           .catch(err => {
-            alert('User is already in this league');
+            Alert.alert("Join Error", err.response.data);
+            // alert('User is already in this league');
           });
       } else {
         // No user signed in
@@ -67,27 +83,48 @@ class Scoreboard extends Component {
     });
   }
 
-  isInLeague = () => {
-    // Get current user
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        // Check if user is in the league
-        this.setState({
-          currentUser: user.uid
-        });
-      } else {
-        alert("You are not signed in");
+  leaveLeague = () => {
+    // user is logged in
+    axios.put(endpoints.REMOVEPLAYERFROMLEAGUE_EP(this.props.route.params.data._id, this.state.currentUID))
+      .then(res => {
+        this.getPlayers();
+      })
+      .catch(err => {
+        alert('Server error');
+      });
+  }
+
+  checkIfInLeauge = () => {
+    // check if current UID is in the data
+    let numPlayers = this.state.data.length;
+    for (let i = 0; i < numPlayers; i++) {
+      if (this.state.data[i].uid == this.state.currentUID) {
+        return true;
       }
-    });
+    }
+    return false;
+  }
+
+  generateButton = () => {
+    if (this.checkIfInLeauge()) {
+      return (
+        <TouchableOpacity style={styles.button} onPress={() => this.leaveLeague()}>
+          <Text>LEAVE LEAGUE</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity style={styles.button} onPress={() => this.joinLeague()}>
+          <Text>JOIN LEAGUE</Text>
+        </TouchableOpacity>
+      );
+    }
   }
 
   componentDidMount() {
     this.getPlayers();
-    // console.log(this.state);
-    // Check if the current user is in the league
+    this.getCurrentUser();
   }
-
-
 
   render() {
     return (
@@ -108,11 +145,9 @@ class Scoreboard extends Component {
             labelBy='userName' />
         </View>
         <View style={styles.buttonContainer}>
-          {
-            
-          }
-          <TouchableOpacity style={styles.button} onPress={() => this.joinLeague()}>
-            <Text>JOIN LEAGUE</Text>
+          {this.generateButton()}
+          <TouchableOpacity style={styles.button} onPress={() => { console.log("CURRENT STATE"); console.log(this.props.route.params.data) }}>
+            <Text>State</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

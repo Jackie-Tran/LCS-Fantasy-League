@@ -28,6 +28,7 @@ export default function App() {
     activePros: [],
   });
 
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -41,7 +42,7 @@ export default function App() {
           ) : (
               <Stack.Navigator>
                 <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
-                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
+                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague}} component={LeagueScreen} />
               </Stack.Navigator>
             )
         }

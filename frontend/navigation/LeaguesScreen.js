@@ -16,6 +16,9 @@ class LeaguesScreen extends React.Component {
         this.setState({ isRefreshing: true });
         axios.get(endpoints.GETLEAGUES_EP)
         .then(res => {
+            res.data.forEach(league => {
+                league.id = league._id;
+            });
             this.setState({leagues: res.data, isRefreshing: false});
         })
         .catch(err => {
@@ -23,8 +26,14 @@ class LeaguesScreen extends React.Component {
         });
     }
 
+<<<<<<< HEAD
     gotoLeague = (league) => {
         this.props.navigation.navigate('League', { data: league});
+=======
+    gotoLeague = (league, uid) => {
+        console.log('Go To League');
+        this.props.navigation.navigate('League', { data: league, uid: uid });
+>>>>>>> feature/draft
     }
 
     componentDidMount() {
@@ -34,7 +43,7 @@ class LeaguesScreen extends React.Component {
     render() {
         return (
         <SafeAreaView style={styles.container}>
-            <FlatList refreshing={this.state.isRefreshing} onRefresh={() => this.getLeagues()} data={this.state.leagues} renderItem={ ({ item }) => (
+            <FlatList refreshing={this.state.isRefreshing} onRefresh={() => {this.getLeagues()}} data={this.state.leagues} renderItem={ ({ item }) => (
                 <League data={item} gotoLeague={this.gotoLeague}/>
             )}/>
         </SafeAreaView>
