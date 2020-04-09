@@ -36,7 +36,7 @@ router.delete('/:id', (req, res, next) => {
 
 
 // Update player
-router.post('/:username/:kills/:assists/:deaths/:cs/:points', (req, res, next) => {
+router.put('/:username/:kills/:assists/:deaths/:cs/:points', (req, res, next) => {
 
     Match.findOne({ username: req.params.username, kills: req.params.kills, assists: req.params.assists, deaths: req.params.deaths, cs: req.params.cs, points: req.params.points }, (err, stats) => {
         // Create new player if they are not already in the database
