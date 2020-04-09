@@ -26,6 +26,14 @@ const LeagueSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false,
+    },
+    pickIndex: {
+        type: Number,
+        default: 0,
+    },
+    reversePick: {
+        type: Boolean,
+        default: false,
     }
 });
 

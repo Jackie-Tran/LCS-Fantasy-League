@@ -113,6 +113,22 @@ router.put('/:id/:uid/addPro', (req, res, next) => {
                 break;
             }
         }
+
+        // Update pickIndex
+        if (league.reversePick) {
+            if (league.pickIndex == 0) {
+                league.reversePick = false;
+            } else {
+                league.pickIndex--;
+            }
+        } else {
+            if (league.pickIndex == league.players.length-1) {
+                league.reversePick = true;
+            } else {
+                league.pickIndex++;
+            }
+        }
+
         league.save();
         res.json(league);
     });
@@ -152,19 +168,35 @@ router.delete('/:id', (req, res, next) => {
     });
 });
 
-// Start Draft
-router.patch('/:id/draft', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": req.body.draftStarted } }, (err, league) => {
-        if (err) return res.json(err);
-        return res.json(league);
-    });
-});
+let shuffle = (arr) => {
+    let currentIndex = arr.length;
+    let tempVal = 0, randIndex = 0;
 
-// Stop Draft
-router.patch('/id/endDraft', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { "$set": { "draftStarted": false } }, (err, league) => {
+    while (currentIndex !== 0) {
+        randIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        tempVal = arr[currentIndex];
+        arr[currentIndex] = arr[randIndex];
+        arr[randIndex] = tempVal;
+    }
+
+    return arr;
+}
+
+// Start/stop draft
+router.patch('/:id/draft', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
-        return res.json(league);
+        league.draftStarted = req.body.draftStarted;
+        // If we are starting thedraft, shuffle the pick order
+        if (req.body.draftStarted == true) {
+            league.players = shuffle(league.players);
+        }
+        league.save((err) => {
+            if (err) return res.json(err);
+            return res.json(league);
+        });
     });
 });
 
