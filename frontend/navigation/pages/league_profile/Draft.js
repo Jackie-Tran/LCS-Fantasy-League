@@ -29,6 +29,10 @@ class Draft extends Component {
     });
   }
 
+  getLeague = () => {
+
+  }
+
   getPlayersByRole = (role) => {
     this.setState({currentRole: role});
     axios.get(endpoints.GETPLAYERSBYROLE_EP + role)
@@ -36,7 +40,8 @@ class Draft extends Component {
         let pros = res.data;
         let availablePros = pros.filter(pro => {return !this.state.activePros.includes(pro.ign);});
         this.setState({ 
-          pros: availablePros
+          pros: availablePros,
+          isRefreshing: false,
         });
       })
       .catch(err => {
@@ -45,6 +50,7 @@ class Draft extends Component {
   }
 
   getProsInLeague = () => {
+    this.setState({ isRefreshing: true });
     axios.get(endpoints.GETPROSINLEAGUE_EP(this.props.route.params.data._id))
       .then(res => {
         this.setState({ activePros: res.data });
@@ -84,7 +90,6 @@ class Draft extends Component {
   }
 
   lockinPro = () => {
-    console.log(this.props.route.params.uid);
     Alert.alert(
       'Confirm Lockin',
       'Are you sure you want to lockin ' + this.state.selectedPro.ign,
@@ -122,7 +127,7 @@ class Draft extends Component {
             </TouchableOpacity>
           </View>
           {/* Players */}
-          <FlatList data={this.state.pros} renderItem={({ item }) => (
+          <FlatList refreshing={this.state.isRefreshing} onRefresh={() => {console.log("refreshing");this.getProsInLeague(); this.getPlayersByRole(this.state.currentRole)}} data={this.state.pros} renderItem={({ item }) => (
             <Player ign={item.ign} team={item.team} role={item.role} id={item._id} selectPro={this.selectPro} />
           )} />
         </View>
