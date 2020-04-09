@@ -1,6 +1,6 @@
 const mongoose = require('../connection');
 
-const Match = mongoose.Schema({
+const MatchSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -27,4 +27,4 @@ const Match = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.leagues.model('Match', LeagueSchema);
+module.exports = mongoose.leagues.model('Match', MatchSchema);

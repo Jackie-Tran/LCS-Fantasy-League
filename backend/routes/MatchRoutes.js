@@ -34,4 +34,28 @@ router.delete('/:id', (req, res, next) => {
 });
 
 
+// Update player
+router.post('/:username/:kills/:assists/:deaths/:cs/:points', (req, res, next) => {
+
+    Match.findOne({ username: req.params.username, kills: req.params.kills, assists: req.params.assists, deaths: req.params.deaths, cs: req.params.cs, points: req.params.points }, (err, stats) => {
+        // Create new player if they are not already in the database
+        if (!stats) {
+            console.log("stats doesnt exist");
+            let stats = new Match(req.body);
+            stats.save((err) => {
+                if (err) return res.json(err);
+                return res.json(stats);
+            });
+        } else {
+            // If the player DOES exist, just update the fields
+            if (err) return res.json(err);
+            Match.updateOne({ username: req.params.username, kills: req.params.kills, assists: req.params.assists, deaths: req.params.deaths, cs: req.params.cs, points: req.params.points }, req.body, (err, stats) => {
+                if (err) return res.send(err);
+                return res.json(stats);
+            });
+        }
+    });
+  });
+
+
 module.exports = router;

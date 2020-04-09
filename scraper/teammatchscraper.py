@@ -1,4 +1,5 @@
 import requests, re, json
+import sys
 from bs4 import BeautifulSoup
 
 
@@ -49,6 +50,7 @@ def compareDate(date1, date2):
 def collectDataForDate(date):
     '''date is formatted as year-month-day
     Gets all the player stats for a specific year-month-date'''
+    apiUrl = 'http://localhost:3000'
     response = requests.get('https://gol.gg/tournament/tournament-stats/LCS%20Spring%202020/')
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find_all('section')[3]
@@ -76,12 +78,22 @@ def collectDataForDate(date):
                 username = player.find_all('a')[-1]
                 stats = player.find_all("td")
                 kda = stats[-2].get_text().split('/')
-                cs = stats[-1].get_text()
+                cs = stats[-1].get_text().lstrip()
 
                 # points calculated by kills - deaths + assists for now
                 points = int(kda[0]) - int(kda[1]) + int(kda[2])
 
                 new_player = PlayerMatchStats(username.get_text(), kda[0], kda[1], kda[2], cs, points)
                 player_list.append(new_player)
+                print(new_player)
+                # Make request to create player
+                headers = {'[content-type]': 'application/json'}
+                endpoint = "{0}/matches/{1}/{2}/{3}/{4}/{5}/{6}".format(apiUrl, username.get_text(), kda[0], kda[1], kda[2], cs, points)
+                response = requests.put(endpoint, json=new_player.__dict__)
+                print(endpoint)
+                print(response)
 
     return player_list
+
+
+collectDataForDate(sys.argv[1])

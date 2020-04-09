@@ -15,10 +15,12 @@ const admin = require('firebase-admin');
 //});
 
 // Import Endpoints
+const matchesRoute = require('./routes/MatchRoutes');
 const proPlayersRoute = require('./routes/ProPlayerRoutes');
 const leagueRoute = require('./routes/LeaugeRoutes');
 const userRoute = require('./routes/UserRoutes');
 
+app.use('/matches', matchesRoute);
 app.use('/players', proPlayersRoute);
 app.use('/leagues', leagueRoute);
 app.use('/users', userRoute);
