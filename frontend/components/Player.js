@@ -7,7 +7,7 @@ let fullHeight = Dimensions.get('window').height;
 
 const Player = (props) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => {props.selectPro(props.id)}}>
+        <TouchableOpacity style={styles.container} onPress={() => {props.selectPro(props)}}>
             <Image style={styles.image} source={require('../assets/proPlayerIcon.jpg')} />
             <View style={styles.playerData}>
               <Text style={styles.text}>{props.ign}</Text>

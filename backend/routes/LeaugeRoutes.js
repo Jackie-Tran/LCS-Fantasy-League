@@ -85,7 +85,7 @@ router.put('/:id/:uid/addPro', (req, res, next) => {
         if (err) return res.json(err);
         for (let i = 0; i < league.players.length; i++) {
             if (league.players[i].uid == req.params.uid) {
-                league.players[i].team.push(req.body.proId);
+                league.players[i].team.push(req.body.pro);
                 break;
             }
         }

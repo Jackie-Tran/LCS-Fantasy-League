@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView, TouchableOpacity, Text, View, TextInput } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity, Text, View, TextInput, Alert } from 'react-native';
 
 import Player from '../../../components/Player';
 import { FlatList } from 'react-native-gesture-handler';
 
+import firebase from 'firebase';
 import axios from 'axios';
 import * as endpoints from '../../../constants/endpoints';
 
 
-class DraftPage extends Component {
+class Draft extends Component {
 
   state = {
     searchBar: '',
     currentRole: 'top',
     players: []
+  }
+
+  getCurrentUser = () => {
+    console.log('Getting current user');
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // user exists
+        this.setState({
+          currentUID: user.uid
+        })
+      }
+    });
   }
 
   getPlayersByRole = (role) => {
@@ -27,21 +40,43 @@ class DraftPage extends Component {
   }
 
   addProToTeam = () => {
-    axios.put(endpoints.ADDPROTOLEAGUE_EP(this.props.route.params.data._id), {
-      proId: this.state.selectedPro
+    axios.put(endpoints.ADDPROTOLEAGUE_EP(this.props.route.params.data._id, this.state.currentUID), {
+      pro: this.state.selectedPro.ign
     })
       .then(res => {
-
+        Alert.alert(
+          'Congratulations!',
+          'You have successfully drafted ' + this.state.selectedPro.ign + ' to your team.',
+          ['Ok'],
+        );
       })
       .catch(err => {
-
+        alert("Something went wrong. Please try again later.");
       });
   }
 
-  selectPro = (proId) => {
+  selectPro = (data) => {
     this.setState({
-      selectedPro: proId
+      selectedPro: {
+        id: data.id,
+        ign: data.ign,
+        role: data.role,
+        team: data.team,
+      }
     });
+  }
+
+  lockinPro = () => {
+    console.log(this.props.route.params.uid);
+    Alert.alert(
+      'Confirm Lockin',
+      'Are you sure you want to lockin ' + this.state.selectedPro.ign,
+      [
+        {text: 'Yes', onPress: () => this.addProToTeam()},
+        {text: 'No', onPress: () => console.log("No pressed")},
+      ],
+      { cancelable: false }
+    )
   }
 
   createDraftUi = () => {
@@ -75,7 +110,7 @@ class DraftPage extends Component {
           )} />
         </View>
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.lockinButton}>
+          <TouchableOpacity style={styles.lockinButton} onPress={() => this.lockinPro()}>
             <Text>Lock In</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.lockinButton} onPress={() => console.log(this.state)}>
@@ -106,12 +141,12 @@ class DraftPage extends Component {
     // When the page loads
     this.getPlayersByRole(this.state.currentRole);
     this.setState({ draftStarted: this.props.route.params.data.draftStarted });
-    console.log(this.props.route.params.data);
+    // Get current user
+    this.getCurrentUser();
   }
 
   render() {
     return (
-
       this.generateUi()
     );
   };
@@ -185,4 +220,4 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
-export default DraftPage;
+export default Draft;
