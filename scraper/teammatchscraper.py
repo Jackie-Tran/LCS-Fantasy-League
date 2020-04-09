@@ -88,7 +88,7 @@ def collectDataForDate(date):
                 print(new_player)
                 # Make request to create player
                 headers = {'[content-type]': 'application/json'}
-                endpoint = "{0}/players/{1}/{2}/{3}/{4}/{5}/{6}".format(apiUrl, username.get_text(), kda[0], kda[1], kda[2], cs, points)
+                endpoint = "{0}/matches/{1}/{2}/{3}/{4}/{5}/{6}".format(apiUrl, username.get_text(), kda[0], kda[1], kda[2], cs, points)
                 response = requests.put(endpoint, json=new_player.__dict__)
                 print(endpoint)
                 print(response)

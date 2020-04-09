@@ -56,6 +56,7 @@ router.post('/:username/:kills/:assists/:deaths/:cs/:points', (req, res, next) =
             });
         }
     });
+  });
 
 
 module.exports = router;
