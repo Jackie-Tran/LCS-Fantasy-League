@@ -85,13 +85,14 @@ const CustomDrawerContent = props => {
             'My Alert Msg',
             [
               {text: 'Yes', onPress: () => firebase.auth().signOut()
-  .then(function() {
-      console.log("loggedout")
-   
-  })
-  .catch(function(error) {
-      console.log("not working")
-  })},
+              .then(function() {
+                console.log("good")
+                console.log(props)
+            
+              }).catch(function(error) {
+                console.log("shiet")
+              })
+            },
               {text: 'Cancel', onPress: () => console.log('OK Pressed')},
             ],
             { cancelable: false }

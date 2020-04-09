@@ -14,7 +14,6 @@ class Signup extends Component {
 
   handleSignUp = () => {
     const { displayName, email, password } = this.state;
-    this.dbRef = Firebase.firestore().collection('users');
     Firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(({user}) => {
       if (user) {
@@ -23,16 +22,29 @@ class Signup extends Component {
           photoURL : "https://assets.entrepreneur.com/content/3x2/2000/20190502194704-ent19-june-editorsnote.jpeg"
         }
         ).then(({user}) => {
-          
+          console.log(user);
         }) 
         .catch((err) => {console.log(err)});
         this.props.route.params.setAuthenticated(true);
       }
-      console.log(user);
     })
-    .catch((err) => {
-      alert(err);
-    });
+    .catch((error) => {
+      
+      let errorMessage = error.code; 
+        if (errorMessage === "auth/email-already-in-use") {
+          Alert.alert("Email already in use.");
+        }
+        else if (errorMessage === "auth/invalid-email") {
+          Alert.alert("Invalid Email");
+        }
+        else if (errorMessage === "auth/weak-password") {
+          Alert.alert("weakPassword");
+        }
+         else {
+          console.log("errorCode")
+        }
+      });
+  
     // Firebase.auth()
     //   .createUserWithEmailAndPassword(email, password)
     //   .then(() => this.props.route.params.setAuthenticated(true))
@@ -41,8 +53,11 @@ class Signup extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.baseText}>
-          Signup
+        <Text style={styles.base2Text}>
+          Welcome 
+            </Text>
+            <Text style={styles.baseText}>
+          Join the Battle
             </Text>
         <TextInput placeholder="Enter Username"
           secureTextEntry={false}
@@ -57,12 +72,6 @@ class Signup extends Component {
           value={this.state.email}
           placeholderTextColor="#FFFFFF"
           style={styles.inputStyle} />
-        <TextInput
-          secureTextEntry={false}
-          placeholder="Enter Password"
-          placeholderTextColor="#FFFFFF"
-          style={styles.inputStyle}
-        />
         <TextInput
           secureTextEntry={true}
           onChangeText={password => this.setState({ password })}
@@ -93,13 +102,15 @@ const styles = StyleSheet.create({
   baseText:
   {
     //fontFamily: 'Cochin',
+    fontSize: 20,
     marginVertical: 20,
     color: "#FFFFFF"
   },
   base2Text:
   {
     //fontFamily: 'Cochin',
-    marginVertical: 20,
+    fontSize: 30,
+    marginVertical: 0,
     color: "#FFFFFF",
     fontWeight: "bold"
   },
