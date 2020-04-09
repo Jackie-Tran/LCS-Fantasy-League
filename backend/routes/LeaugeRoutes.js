@@ -83,6 +83,16 @@ router.get('/:id/players', (req, res, next) => {
 router.put('/:id/:uid/addPro', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
+        // Check if pro is on a team already
+        for (let i = 0; i < league.players.length; i++) {
+            for (let j = 0; j < league.players[i].team.length; j++) {
+                // Check if pro is on this player's team
+                if (league.players[i].team[j] == req.body.pro) {
+                    return res.status(403).send(req.body.pro + " is already on a team.");
+                }
+            }
+        }
+        // Find player and add pro
         for (let i = 0; i < league.players.length; i++) {
             if (league.players[i].uid == req.params.uid) {
                 league.players[i].team.push(req.body.pro);

@@ -51,7 +51,7 @@ class Draft extends Component {
         );
       })
       .catch(err => {
-        alert("Something went wrong. Please try again later.");
+        alert(err.response.data);
       });
   }
 
