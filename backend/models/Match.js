@@ -1,6 +1,6 @@
 const mongoose = require('../connection');
 
-const MatchSchema = mongoose.Schema({
+const ProStatsSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -24,6 +24,33 @@ const MatchSchema = mongoose.Schema({
     points: {
       type: Number,
       required: true
+    }
+});
+
+const TeamSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    stats: {
+        type: [ProStatsSchema],
+        default: []
+    }
+
+});
+
+const MatchSchema = mongoose.Schema({
+    date: {
+        type: String,
+        required: true
+    },
+    team1: {
+        type: TeamSchema,
+        required: true,
+    },
+    team2: {
+        type: TeamSchema,
+        required: true,
     }
 });
 

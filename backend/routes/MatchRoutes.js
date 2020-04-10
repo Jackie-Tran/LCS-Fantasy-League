@@ -17,9 +17,9 @@ router.post('/', (req, res, next) => {
 
 
 router.get('/:id', (req, res, next) => {
-    League.findById(req.params.id, (err, league) => {
-        if (err) return "stupid";
-        return res.json(league.matchups);
+    Match.findById(req.params.id, (err, match) => {
+        if (err) return res.json(err);
+        return res.json(match);
     });
 });
 
