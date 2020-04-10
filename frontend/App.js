@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Image, Platform, StatusBar } from 'react-native';
-import { AppLoading, Asset, Font, Icon, SplashScreen } from 'expo';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,58 +16,39 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default class App extends React.Component {
+export default function App() {
 
-  state = {
-    isLoadingComplete: false,
-    splashAnimation: new Animated.Value(0),
-    splashAnimationComplete: false,
-    authenticated: false,
-    currentLeague: {
-      id: -1,
-      name: 'leagueName',
-      players: [],
-      maxPlayers: -1,
-      img: 'url',
-      activePros: [],
-    }
-  }
+  const [authenticated, setAuthenticated] = React.useState(false);
+  const [currentLeague, setCurrentLeague] = React.useState({
+    id: -1,
+    name: 'leagueName',
+    players: [],
+    maxPlayers: -1,
+    img: 'url',
+    activePros: [],
+  });
 
-  setAuthenticated = (isAuthenticated) => {
-    this.setState({
-      authenticated: isAuthenticated
-    });
-  }
 
-  setCurrentLeague = (league) => {
-    this.setState({
-      currentLeague: league
-    });
-  }
-
-  render() {
-    return (
-      <SafeAreaProvider>
-        <NavigationContainer>
-          {
-            !this.state.authenticated ? (
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {
+          !authenticated ? (
+            <Stack.Navigator>
+              <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
+              <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
+              <Stack.Screen name="ForgotPassword" initialParams={{ setAuthenticated }} component={ForgotPassword} />
+            </Stack.Navigator>
+          ) : (
               <Stack.Navigator>
-                <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{setAuthenticated: this.setAuthenticated}} component={Login} />
-                <Stack.Screen name="Signup" initialParams={{setAuthenticated: this.setAuthenticated}} component={Signup} />
-                <Stack.Screen name="ForgotPassword" initialParams={{setAuthenticated: this.setAuthenticated}} component={ForgotPassword} />
+                <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
+                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague}} component={LeagueScreen} />
               </Stack.Navigator>
-            ) : (
-                <Stack.Navigator>
-                  <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{setCurrentLeague: this.setCurrentLeague}} component={MainScreen} />
-                  <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{currentLeague: this.state.currentLeague}} component={LeagueScreen} />
-                </Stack.Navigator>
-              )
-          }
-        </NavigationContainer>
-      </SafeAreaProvider >
-    );
-  }
-
+            )
+        }
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
 }
 
 const styles = StyleSheet.create({
