@@ -15,7 +15,7 @@ class Login extends Component {
   handleLogin = () => {
     const { email, password } = this.state
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => this.props.route.params.setAuthenticated(true))
+      .then(() => {this.props.route.params.setAuthenticated(true); console.log(this.props.route.params.setAuthenticated(true))})
       .catch(error=>
       {
         let errorCode = error.code; 
@@ -36,9 +36,7 @@ class Login extends Component {
         {
           this.props.navigation.navigate('Login')
         }
-      });
-      
-      
+      });      
   }
   render() {
     return (
