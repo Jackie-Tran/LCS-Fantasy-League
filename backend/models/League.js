@@ -16,19 +16,24 @@ const LeagueSchema = mongoose.Schema({
     players: {
         type: [{
             uid: { type: String, required: true },
+            username: { type: String, required: true },
             score: 0,
-            draftedPlayers: [String]
+            team: { type: [String], required: true },
         }],
         required: true
     },
-    teams: {
-        type: [[String]],
-        required: true
+    draftStarted: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
-    matchups:
-    {
-        type : [[String]],
-        required: true
+    pickIndex: {
+        type: Number,
+        default: 0,
+    },
+    reversePick: {
+        type: Boolean,
+        default: false,
     }
 });
 

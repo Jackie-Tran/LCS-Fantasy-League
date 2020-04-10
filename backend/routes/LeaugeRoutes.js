@@ -38,10 +38,15 @@ router.get('/', (req, res, next) => {
 router.put('/:id/addPlayer', (req, res, next) => {
     let player = {
         uid: req.body.uid,
+        username: req.body.username,
         score: 0
     };
     League.findOne({ _id: req.params.id }, (err, league) => {
         if (err) return res.json(league);
+        // Check if league is full
+        if (league.players.length == league.maxPlayers) {
+            return res.status(400).send("League is full");
+        }
         // Check if player is already in the league
         for (let i = 0; i < league.players.length; i++) {
             if (league.players[i].uid == player.uid) {
@@ -60,7 +65,7 @@ router.put('/:id/addPlayer', (req, res, next) => {
 
 // Remove player
 router.put('/:id/removePlayer/:uid', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { $pull: { "players": req.params.uid.toString() } }, (err, league) => {
+    League.updateOne({ _id: req.params.id }, { $pull: { "players": {"uid": req.params.uid} } }, (err, league) => {
         if (err) return res.json(err);
         return res.json(league);
     });
@@ -82,13 +87,73 @@ router.get('/:id/matchups', (req, res, next) => {
     });
 });
 
-// Add pro
-router.put('/:id/addPro', (req, res, next) => {
-    // TODO: Should check if player id exists in db
-    League.updateOne({ _id: req.params.id }, { "$addToSet": { "activePros": req.body.proId } }, (err, league) => {
+// Get pros in league
+router.get('/:id/getPros', (req, res, next) => {
+    let pros = [];
+    League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
-        return res.json(league);
+        league.players.forEach(player => {
+            player.team.forEach(pro => {
+                pros.push(pro);
+            });
+        });
+        return res.json(pros);
     });
+});
+
+// Add pro
+router.put('/:id/:uid/addPro', (req, res, next) => {
+
+    League.findById(req.params.id, (err, league) => {
+        if (err) return res.json(err);
+        // Check if its your turn
+        let pickIndex = league.pickIndex;
+        for (let i = 0; i < league.players.length; i++) {
+            // Find the player trying to add the pro and check if their index is the pickIndex
+            if (league.players[i].uid == req.params.uid) {
+                if (i != pickIndex) {
+                    return res.status(401).send("It is not your turn to draft yet.");
+                } else {
+                    break;
+                }
+            }
+        }
+        // Check if pro is on a team already
+        for (let i = 0; i < league.players.length; i++) {
+            for (let j = 0; j < league.players[i].team.length; j++) {
+                // Check if pro is on this player's team
+                if (league.players[i].team[j] == req.body.pro) {
+                    return res.status(403).send(req.body.pro + " is already on a team.");
+                }
+            }
+        }
+        // Find player and add pro
+        for (let i = 0; i < league.players.length; i++) {
+            if (league.players[i].uid == req.params.uid) {
+                league.players[i].team.push(req.body.pro);
+                break;
+            }
+        }
+
+        // Update pickIndex
+        if (league.reversePick) {
+            if (league.pickIndex == 0) {
+                league.reversePick = false;
+            } else {
+                league.pickIndex--;
+            }
+        } else {
+            if (league.pickIndex == league.players.length-1) {
+                league.reversePick = true;
+            } else {
+                league.pickIndex++;
+            }
+        }
+
+        league.save();
+        res.json(league);
+    });
+    // League.updateOne({ _id: req.params.id }, { "$addToSet": { "players": { "" } } })
 });
 
 // Update max players
@@ -100,9 +165,17 @@ router.put('/:id/maxPlayers', (req, res, next) => {
 });
 
 // Remove pro
-router.delete('/:id/removePro/:proId', (req, res, next) => {
-    League.updateOne({ _id: req.params.id }, { "$pull": { "activePros": req.params.proId } }, { multi: true }, (err, league) => {
+router.delete('/:id/:uid/removePro/:pro', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
+        for (let i = 0; i < league.players.length; i++) {
+            // Remove pro
+            let index = league.players[i].team.indexOf(req.params.pro);
+            if (index > -1) {
+                league.players[i].team.splice(index, 1);
+            }
+        }
+        league.save();
         return res.json(league);
     });
 });
@@ -113,6 +186,38 @@ router.delete('/:id', (req, res, next) => {
         if (!league) return res.sendStatus(404);
         if (err) return res.json(err);
         if (league) return res.json(league);
+    });
+});
+
+let shuffle = (arr) => {
+    let currentIndex = arr.length;
+    let tempVal = 0, randIndex = 0;
+
+    while (currentIndex !== 0) {
+        randIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        tempVal = arr[currentIndex];
+        arr[currentIndex] = arr[randIndex];
+        arr[randIndex] = tempVal;
+    }
+
+    return arr;
+}
+
+// Start/stop draft
+router.patch('/:id/draft', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
+        if (err) return res.json(err);
+        league.draftStarted = req.body.draftStarted;
+        // If we are starting thedraft, shuffle the pick order
+        if (req.body.draftStarted == true) {
+            league.players = shuffle(league.players);
+        }
+        league.save((err) => {
+            if (err) return res.json(err);
+            return res.json(league);
+        });
     });
 });
 
