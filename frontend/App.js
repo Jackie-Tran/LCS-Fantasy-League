@@ -5,7 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import MainScreen from './navigation/screens/MainScreen';
+import LeaguesScreen from './navigation/LeaguesScreen';
+import sideMenu2 from './navigation/screens/sideMenu2';
 import Login from './navigation/authentication/Login';
 import Signup from './navigation/authentication/Signup';
 import ForgotPassword from './navigation/authentication/ForgotPasswordScreen';
@@ -41,8 +42,13 @@ export default function App() {
             </Stack.Navigator>
           ) : (
               <Stack.Navigator>
+<<<<<<< HEAD
+                <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setAuthenticated }}  component={sideMenu2} />
+                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
+=======
                 <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
                 <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague}} component={LeagueScreen} />
+>>>>>>> c29ca53c9f72ef283c72d9e57d486c601f45ba17
               </Stack.Navigator>
             )
         }

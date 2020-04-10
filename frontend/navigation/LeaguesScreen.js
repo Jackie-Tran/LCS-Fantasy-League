@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import League from '../components/League';
 
@@ -36,6 +37,7 @@ class LeaguesScreen extends React.Component {
 
     render() {
         return (
+            
         <SafeAreaView style={styles.container}>
             <FlatList refreshing={this.state.isRefreshing} onRefresh={() => {this.getLeagues()}} data={this.state.leagues} renderItem={ ({ item }) => (
                 <League data={item} gotoLeague={this.gotoLeague}/>
