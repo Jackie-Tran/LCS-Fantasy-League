@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 
 
 class PlayerMatchStats:
-    def __init__(self, username, kills, deaths, assists, cs, points):
+    def __init__(self, team, username, kills, deaths, assists, cs, points):
+        self.team = team
         self.username = username
         self.kills = kills
         self.deaths = deaths
@@ -13,13 +14,22 @@ class PlayerMatchStats:
         self.points = points
 
     def __str__(self):
-        return "username: " + self.username \
+        return "team: " + self.team \
+               + " username: " + self.username \
                + " kills: " + self.kills \
                + " deaths: " + self.deaths \
                + " assists: " + self.assists \
                + " cs: " + self.cs \
                + " points: {}".format(self.points)
 
+class Match:
+    def __init__(self, date, team1, team2):
+        self.date = date
+        self.team1 = team1
+        self.team2 = team2
+    
+    def __str__(self):
+        return "Date: " + self.date + " Team1: " + team1 + " Team2: " + team2
 
 def compareDate(date1, date2):
     """date1, date2 are formatted as year-month-day
@@ -71,27 +81,40 @@ def collectDataForDate(date):
         match_page = requests.get(link)
         soup = BeautifulSoup(match_page.text, 'html.parser')
         stats_tab = soup.find_all("table", class_="playersInfosLine footable toggle-square-filled")
+        team1 = soup.find(class_="col-12 blue-line-header").find("a").get_text()
+        team2 = soup.find(class_="col-12 red-line-header").find("a").get_text()
+        teamNumber = 0
+        playerCount = 0
+        # Create the match
+        match = Match(date, team1, team2)
+        headers = {'[content-type]': 'application/json'}
+        endpoint = "{0}/matches/createMatch".format(apiUrl)
+        response = requests.post(endpoint, json=match.__dict__)
+        print(endpoint)
+        print(response)
+        # if not stats_tab == []:
+        #     player_stats = iter(stats_tab[0].findChildren(["tr"], recursive=False) + stats_tab[1].findChildren(["tr"], recursive=False))
+        #     for player in player_stats:
+        #         teamNumber = 0 if playerCount < 5 else 1
+        #         team = team1 if teamNumber == 0 else team2
+        #         username = player.find_all('a')[-1]
+        #         stats = player.find_all("td")
+        #         kda = stats[-2].get_text().split('/')
+        #         cs = stats[-1].get_text().lstrip()
 
-        if not stats_tab == []:
-            player_stats = iter(stats_tab[0].findChildren(["tr"], recursive=False) + stats_tab[1].findChildren(["tr"], recursive=False))
-            for player in player_stats:
-                username = player.find_all('a')[-1]
-                stats = player.find_all("td")
-                kda = stats[-2].get_text().split('/')
-                cs = stats[-1].get_text().lstrip()
+        #         # points calculated by kills - deaths + assists for now
+        #         points = int(kda[0]) - int(kda[1]) + int(kda[2])
 
-                # points calculated by kills - deaths + assists for now
-                points = int(kda[0]) - int(kda[1]) + int(kda[2])
-
-                new_player = PlayerMatchStats(username.get_text(), kda[0], kda[1], kda[2], cs, points)
-                player_list.append(new_player)
-                print(new_player)
-                # Make request to create player
-                headers = {'[content-type]': 'application/json'}
-                endpoint = "{0}/matches/{1}/{2}/{3}/{4}/{5}/{6}".format(apiUrl, username.get_text(), kda[0], kda[1], kda[2], cs, points)
-                response = requests.put(endpoint, json=new_player.__dict__)
-                print(endpoint)
-                print(response)
+        #         new_player = PlayerMatchStats(team, username.get_text(), kda[0], kda[1], kda[2], cs, points)
+        #         player_list.append(new_player)
+        #         print(new_player)
+        #         playerCount += 1
+        #         # Make request to create player
+        #         headers = {'[content-type]': 'application/json'}
+        #         endpoint = "{0}/matches/{1}/{2}/{3}/addProStats".format(apiUrl, date, team1, team2)
+        #         response = requests.put(endpoint, json=new_player.__dict__)
+        #         print(endpoint)
+        #         print(response)
 
     return player_list
 
