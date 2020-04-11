@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
 
 // Create match
 router.post('/createMatch', (req, res, next) => {
-    let playerMatchStats = new Match(req.body);
+    let newMatch = new Match(req.body);
     // Matches are unique so check if the match already exists
-    Match.findOne({ "date": req.body.date, "team1.name": req.body.team1, "team2.name": req.body.team2 }, (err, match) => {
+    Match.findOne({ "date": req.body.date, "team1.name": req.body['team1.name'], "team2.name": req.body['team2.name'] }, (err, match) => {
         if (err) return res.json(err);
         if (match == null) {
-            playerMatchStats.save((err) => {
+            newMatch.save((err) => {
                 if (err) return res.json(err);
-                return res.json(playerMatchStats);
+                return res.json(newMatch);
             });
         } else {
             return res.status(409).send("Match already exists");

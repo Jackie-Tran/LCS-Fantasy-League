@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 class PlayerMatchStats:
     def __init__(self, team, username, kills, deaths, assists, cs, points):
+        super().__init__()
         self.team = team
         self.username = username
         self.kills = kills
@@ -24,12 +25,13 @@ class PlayerMatchStats:
 
 class Match:
     def __init__(self, date, team1, team2):
+        super().__init__()
         self.date = date
         self.team1 = team1
         self.team2 = team2
     
     def __str__(self):
-        return "Date: " + self.date + " Team1: " + team1 + " Team2: " + team2
+        return "Date: " + self.date + " Team1: " + self.team1 + " Team2: " + self.team2
 
 def compareDate(date1, date2):
     """date1, date2 are formatted as year-month-day
@@ -65,9 +67,9 @@ def collectDataForDate(date):
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find_all('section')[3]
     rows = iter(table.find_all('tr'))
-
-    next(rows) # First row is header-- not important
+    next(rows) # First row is header not important
     player_list = []
+    headers = {'[content-type]': 'application/json'}
 
     for row in rows:
         compared = compareDate(date, row.find_all("td")[-1].get_text())
@@ -87,9 +89,9 @@ def collectDataForDate(date):
         playerCount = 0
         # Create the match
         match = Match(date, team1, team2)
-        headers = {'[content-type]': 'application/json'}
         endpoint = "{0}/matches/createMatch".format(apiUrl)
-        response = requests.post(endpoint, json=match.__dict__)
+        print(match.__dict__)
+        response = requests.post(endpoint, json={"date": date, "team1.name": team1, "team2.name": team2})
         print(endpoint)
         print(response)
         # if not stats_tab == []:
@@ -116,7 +118,7 @@ def collectDataForDate(date):
         #         print(endpoint)
         #         print(response)
 
-    return player_list
+    return 0
 
 
 collectDataForDate(sys.argv[1])
