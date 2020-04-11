@@ -7,19 +7,27 @@ router.get('/', (req, res) => {
 });
 
 // Create match
-router.post('/', (req, res, next) => {
-    let playerMatchStats = new Match(req.body);
-    playerMatchStats.save((err) => {
+router.post('/createMatch', (req, res, next) => {
+    let newMatch = new Match(req.body);
+    // Matches are unique so check if the match already exists
+    Match.findOne({ "date": req.body.date, "team1.name": req.body['team1.name'], "team2.name": req.body['team2.name'] }, (err, match) => {
         if (err) return res.json(err);
-        return res.json(playerMatchStats);
-    });
+        if (match == null) {
+            newMatch.save((err) => {
+                if (err) return res.json(err);
+                return res.json(newMatch);
+            });
+        } else {
+            return res.status(409).send("Match already exists");
+        }
+    })
 });
 
-
+// Get match
 router.get('/:id', (req, res, next) => {
-    League.findById(req.params.id, (err, league) => {
-        if (err) return "stupid";
-        return res.json(league.matchups);
+    Match.findById(req.params.id, (err, match) => {
+        if (err) return res.json(err);
+        return res.json(match);
     });
 });
 
@@ -33,8 +41,47 @@ router.delete('/:id', (req, res, next) => {
     });
 });
 
+let isInStats = (stats, pro) => {
+    for (let i = 0; i < stats.length; i++) {
+        if (stats[i].name == pro.name) return true;
+    }
+    return false;
+}
+router.put('/:date/:team1/:team2/addProStats', (req, res, next) => {
+    Match.findOne({ "date": req.params.date, "team1.name": req.params.team1, "team2.name": req.params.team2 }, (err, match) => {
+        if (err) return res.json(err);
+        if (match) {
+            let stats = {
+                name: req.body.name,
+                kills: req.body.kills,
+                deaths: req.body.deaths,
+                assists: req.body.assists,
+                cs: req.body.cs,
+                points: req.body.points,
+            };
+            console.log(stats);
+            if (req.body.team == req.params.team1) {
+                if (!isInStats(match.team1.stats, req.body)) {
+                    match.team1.stats.push(req.body);
+                    match.save();
+                } else {
+                    return res.status(409).send(req.body.name + " was already recoreded in this game.");
+                }
+            } else {
+                if (!isInStats(match.team2.stats, req.body)) {
+                    match.team2.stats.push(req.body);
+                    match.save();
+                } else {
+                    return res.status(409).send(req.body.name + " was already recoreded in this game.");
+                }
+            }
+            return res.json(match);
+        }
+        return res.status(404).send("Match wasn't found");
+    });
+});
 
-// Update player
+// Update stats
 router.put('/:username/:kills/:assists/:deaths/:cs/:points', (req, res, next) => {
 
     Match.findOne({ username: req.params.username, kills: req.params.kills, assists: req.params.assists, deaths: req.params.deaths, cs: req.params.cs, points: req.params.points }, (err, stats) => {
