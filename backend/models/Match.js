@@ -27,4 +27,4 @@ const MatchSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.eSports.model('Match', MatchSchema);
+module.exports = mongoose.matches.model('Match', MatchSchema);
