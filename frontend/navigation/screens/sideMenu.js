@@ -18,10 +18,13 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 import * as  firebase from 'firebase'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
-const Screens = ({navigation}) => 
+const Screens = ({navigation,props}) => 
 {   return (
+  <SafeAreaProvider>
+    
     <Stack.Navigator
      screenOptions = {{
      headerTransperent: true, 
@@ -34,12 +37,14 @@ const Screens = ({navigation}) =>
          marginHorizantal 
          white
          onPress={() => navigation.openDrawer()}> 
-            <Feather name="menu" size={18} color="black" style={{ paddingHorizontal: 10 }} />
+        <Feather name="menu" size={18} color="black" style={{ paddingHorizontal: 10 }} />
          </Button>
      )
      }}> 
+     
         <Stack.Screen name = "LeaguesScreen " component = {LeaguesScreen}/>
-    </Stack.Navigator>
+     </Stack.Navigator>
+    </SafeAreaProvider>
 ); 
 };
 
@@ -77,20 +82,20 @@ const CustomDrawerContent = props => {
       </Block>
       <Block flex={false}>
         <DrawerItem
+        {...props}
           label="Logout"
           labelStyle={{ color: 'black' }}
           icon={() => <AntDesign name="logout" color="black" size={16} />}
           onPress={()=>Alert.alert(
-            'Alert Title',
-            'My Alert Msg',
+            'Logout',
+            'Would you like to logout',
             [
               {text: 'Yes', onPress: () => firebase.auth().signOut()
               .then(function() {
-                console.log("good")
-                console.log(props)
-            
+                 this.handleLogout()
+                
               }).catch(function(error) {
-                console.log("shiet")
+                console.log(1 +"+" + error)
               })
             },
               {text: 'Cancel', onPress: () => console.log('OK Pressed')},
@@ -105,12 +110,13 @@ const CustomDrawerContent = props => {
   
   
 export default sideMenu = () => {
+
     return (
         <Drawer.Navigator
         initialRouteName="LeagueScreen"
         drawerContent= {props => <CustomDrawerContent {... props} />}
         >
-        <Drawer.Screen name="Screens" component={Screens} />
+        <Drawer.Screen name="Something"  component={LeaguesScreen} />
       </Drawer.Navigator>
     ); 
 };

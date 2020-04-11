@@ -12,8 +12,8 @@ import { NavigationContainer } from '@react-navigation/native';
 export default MainScreen = (props) => {
  
      return (
-     
-            <SideMenu/>
+
+            <LeaguesScreen/>
       
     )
 }

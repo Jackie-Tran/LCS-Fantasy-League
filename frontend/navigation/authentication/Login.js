@@ -32,6 +32,12 @@ class Login extends Component {
             'Wrong Password Try Again'
          )
         }
+        else if (errorCode === 'auth/user-not-found') 
+        {
+          Alert.alert(
+            'Wrong Email'
+         )
+        }
         else 
         {
           this.props.navigation.navigate('Login')

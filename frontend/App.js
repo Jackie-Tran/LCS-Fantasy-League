@@ -5,7 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import LeaguesScreen from './navigation/LeaguesScreen';
+
+
+import LeaguesScreen from './navigation/LeaguesScreen'
 import sideMenu2 from './navigation/screens/sideMenu2';
 import Login from './navigation/authentication/Login';
 import Signup from './navigation/authentication/Signup';
@@ -18,7 +20,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
+  global
   const [authenticated, setAuthenticated] = React.useState(false);
   const [currentLeague, setCurrentLeague] = React.useState({
     id: -1,
@@ -42,13 +44,8 @@ export default function App() {
             </Stack.Navigator>
           ) : (
               <Stack.Navigator>
-<<<<<<< HEAD
-                <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setAuthenticated }}  component={sideMenu2} />
-                <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague }} component={LeagueScreen} />
-=======
-                <Stack.Screen name="Main" options={{ headerShown: false }} initialParams={{ setCurrentLeague }} component={MainScreen} />
+                <Stack.Screen name="LeaguesScreen" options={{ headerShown: true,title: "Welcome Back", headerTitleAlign: 'center'}} initialParams={{ setAuthenticated }}component={LeaguesScreen} />
                 <Stack.Screen name="League" options={{ headerShown: false }} initialParams={{ currentLeague}} component={LeagueScreen} />
->>>>>>> c29ca53c9f72ef283c72d9e57d486c601f45ba17
               </Stack.Navigator>
             )
         }

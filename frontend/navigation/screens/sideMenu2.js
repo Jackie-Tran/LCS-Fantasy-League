@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import CustomeDrawere from '../screens/CustomDrawere';
 import * as  firebase from 'firebase'
+import Logout from '../authentication/Logout'
 import LeaguesScreen from '../LeaguesScreen';
 import {
   DrawerItem,
@@ -13,43 +14,48 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-// const Screens = ({navigation,props}) => 
-// {   return (
-//   <SafeAreaProvider>
-    
-//     <Stack.Navigator
-//      screenOptions = {{
-//      headerTransperent: true, 
-//      headerTitle: 'Welcome Back', 
-//      headerLeft: () => 
-//      (
-//          <Button 
-//          primary 
-//          padding 
-//          marginHorizantal 
-//          white
-//          onPress={() => navigation.openDrawer()}> 
-//         <Feather name="menu" size={18} color="black" style={{ paddingHorizontal: 10 }} />
-//          </Button>
-//      )
-//      }}> 
-     
-//         <Stack.Screen name = "LeaguesScreen " component = {LeaguesScreen}/>
-//      </Stack.Navigator>
-//     </SafeAreaProvider>
-// ); 
-// };
-const Drawer = createDrawerNavigator();
-const sideMenu2 = ({ route }) => {
+import { render } from 'react-dom';
+
+class sideMenu2 extends Component {
+  handleLogout= () => {
+    const { email, password } = this.state
+    firebase.auth().signOut()
+      .then(() => this.props.route.params.setAuthenticated(true))
+      .catch(error=>
+      {
+        let errorCode = error.code; 
+        console.log(errorCode)
+        if (errorCode === 'auth/invalid-email') 
+        {
+          Alert.alert(
+            'Invalid Email'
+         )
+        }
+        else if (errorCode === 'auth/wrong-password') 
+        {
+          Alert.alert(
+            'Wrong Password Try Again'
+         )
+        }
+        else 
+        {
+          this.props.navigation.navigate('Login')
+        }
+      });
+      
+      
+  }
+  render() {
+    const Drawer = createDrawerNavigator();
     return (
         <Drawer.Navigator
-        initialParams={{ route}}
         initialRouteName="LeaguesScreens"
-        drawerContent= {props=> <CustomeDrawere {...props} />}
         >
         <Drawer.Screen name="LeaguesScreen"  component={LeaguesScreen} />
+        <Drawer.Screen name="Logout" initialParams= {this.props.setAuthenticated} component={Logout} />
       </Drawer.Navigator>
     );
+}
 }
 
 export default sideMenu2;
