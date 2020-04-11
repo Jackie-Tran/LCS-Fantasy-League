@@ -8,7 +8,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 import LeaguesScreen from './navigation/LeaguesScreen'
-import sideMenu2 from './navigation/screens/sideMenu2';
 import Login from './navigation/authentication/Login';
 import Signup from './navigation/authentication/Signup';
 import ForgotPassword from './navigation/authentication/ForgotPasswordScreen';

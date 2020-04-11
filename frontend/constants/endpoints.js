@@ -1,4 +1,4 @@
-const HOST = '192.168.205.11'; // Change this to the IPv4 address of the machine running the express server
+const HOST = '54.174.209.143'; // Change this to the IPv4 address of the machine running the express server
 const PORT = '3000';
 
 export const GETUSER_EP = ((id) => {return 'http://' + HOST + ':' + PORT + '/users/'+id});
