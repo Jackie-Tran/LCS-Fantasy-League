@@ -27,9 +27,6 @@ const ProStatsSchema = mongoose.Schema({
     }
 });
 
-<<<<<<< HEAD
-module.exports = mongoose.matches.model('Match', MatchSchema);
-=======
 const TeamSchema = mongoose.Schema({
     name: {
         type: String,
@@ -58,4 +55,3 @@ const MatchSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.eSports.model('Match', MatchSchema);
->>>>>>> 4ff386abcf35d97bacc3122d5db283c869b13253
