@@ -7,7 +7,7 @@ class PlayerMatchStats:
     def __init__(self, team, username, kills, deaths, assists, cs, points):
         super().__init__()
         self.team = team
-        self.username = username
+        self.name = username
         self.kills = kills
         self.deaths = deaths
         self.assists = assists
@@ -16,7 +16,7 @@ class PlayerMatchStats:
 
     def __str__(self):
         return "team: " + self.team \
-               + " username: " + self.username \
+               + " username: " + self.name \
                + " kills: " + self.kills \
                + " deaths: " + self.deaths \
                + " assists: " + self.assists \
@@ -94,29 +94,29 @@ def collectDataForDate(date):
         response = requests.post(endpoint, json={"date": date, "team1.name": team1, "team2.name": team2})
         print(endpoint)
         print(response)
-        # if not stats_tab == []:
-        #     player_stats = iter(stats_tab[0].findChildren(["tr"], recursive=False) + stats_tab[1].findChildren(["tr"], recursive=False))
-        #     for player in player_stats:
-        #         teamNumber = 0 if playerCount < 5 else 1
-        #         team = team1 if teamNumber == 0 else team2
-        #         username = player.find_all('a')[-1]
-        #         stats = player.find_all("td")
-        #         kda = stats[-2].get_text().split('/')
-        #         cs = stats[-1].get_text().lstrip()
+        if not stats_tab == []:
+            player_stats = iter(stats_tab[0].findChildren(["tr"], recursive=False) + stats_tab[1].findChildren(["tr"], recursive=False))
+            for player in player_stats:
+                teamNumber = 0 if playerCount < 5 else 1
+                team = team1 if teamNumber == 0 else team2
+                name = player.find_all('a')[-1]
+                stats = player.find_all("td")
+                kda = stats[-2].get_text().split('/')
+                cs = stats[-1].get_text().lstrip()
 
-        #         # points calculated by kills - deaths + assists for now
-        #         points = int(kda[0]) - int(kda[1]) + int(kda[2])
+                # points calculated by kills - deaths + assists for now
+                points = int(kda[0]) - int(kda[1]) + int(kda[2])
 
-        #         new_player = PlayerMatchStats(team, username.get_text(), kda[0], kda[1], kda[2], cs, points)
-        #         player_list.append(new_player)
-        #         print(new_player)
-        #         playerCount += 1
-        #         # Make request to create player
-        #         headers = {'[content-type]': 'application/json'}
-        #         endpoint = "{0}/matches/{1}/{2}/{3}/addProStats".format(apiUrl, date, team1, team2)
-        #         response = requests.put(endpoint, json=new_player.__dict__)
-        #         print(endpoint)
-        #         print(response)
+                new_player = PlayerMatchStats(team, name.get_text(), kda[0], kda[1], kda[2], cs, points)
+                player_list.append(new_player)
+                print(new_player)
+                playerCount += 1
+                # Make request to create player
+                headers = {'[content-type]': 'application/json'}
+                endpoint = "{0}/matches/{1}/{2}/{3}/addProStats".format(apiUrl, date, team1, team2)
+                response = requests.put(endpoint, json=new_player.__dict__)
+                print(endpoint)
+                print(response)
 
     return 0
 

@@ -41,13 +41,43 @@ router.delete('/:id', (req, res, next) => {
     });
 });
 
+let isInStats = (stats, pro) => {
+    for (let i = 0; i < stats.length; i++) {
+        if (stats[i].name == pro.name) return true;
+    }
+    return false;
+}
 router.put('/:date/:team1/:team2/addProStats', (req, res, next) => {
-    console.log(req.params.team1);
-    console.log(req.params.team2);
     Match.findOne({ "date": req.params.date, "team1.name": req.params.team1, "team2.name": req.params.team2 }, (err, match) => {
         if (err) return res.json(err);
-        console.log(match);
-        return res.json(match);
+        if (match) {
+            let stats = {
+                name: req.body.name,
+                kills: req.body.kills,
+                deaths: req.body.deaths,
+                assists: req.body.assists,
+                cs: req.body.cs,
+                points: req.body.points,
+            };
+            console.log(stats);
+            if (req.body.team == req.params.team1) {
+                if (!isInStats(match.team1.stats, req.body)) {
+                    match.team1.stats.push(req.body);
+                    match.save();
+                } else {
+                    return res.status(409).send(req.body.name + " was already recoreded in this game.");
+                }
+            } else {
+                if (!isInStats(match.team2.stats, req.body)) {
+                    match.team2.stats.push(req.body);
+                    match.save();
+                } else {
+                    return res.status(409).send(req.body.name + " was already recoreded in this game.");
+                }
+            }
+            return res.json(match);
+        }
+        return res.status(404).send("Match wasn't found");
     });
 });
 
