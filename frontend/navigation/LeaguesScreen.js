@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Dimensions, Text, StyleSheet, SafeAreaView, FlatList,TouchableOpacity} from 'react-native';
+import { View, Dimensions, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import League from '../components/League';
 
 import axios from 'axios';
@@ -15,23 +15,23 @@ class LeaguesScreen extends React.Component {
         isRefreshing: false,
     }
     handleLogout = () => {
-        
+
         this.props.route.params.setAuthenticated(false)
- 
-      }
+
+    }
 
     getLeagues = () => {
         this.setState({ isRefreshing: true });
         axios.get(endpoints.GETLEAGUES_EP)
-        .then(res => {
-            res.data.forEach(league => {
-                league.id = league._id;
+            .then(res => {
+                res.data.forEach(league => {
+                    league.id = league._id;
+                });
+                this.setState({ leagues: res.data, isRefreshing: false });
+            })
+            .catch(err => {
+                console.log(err);
             });
-            this.setState({leagues: res.data, isRefreshing: false});
-        })
-        .catch(err => {
-            console.log(err);
-        });
     }
 
     gotoLeague = (league, uid) => {
@@ -44,40 +44,48 @@ class LeaguesScreen extends React.Component {
 
     render() {
         return (
-        <SafeAreaView style={styles.container}>
-            <FlatList refreshing={this.state.isRefreshing} onRefresh={() => {this.getLeagues()}} data={this.state.leagues} renderItem={ ({ item }) => (
-                <League data={item} gotoLeague={this.gotoLeague}/>
-            )}/>
-           <TouchableOpacity
-          onPress={this.handleLogout}>
-          <Text style={styles.logOutButton}  >Logout </Text>
-        </TouchableOpacity>
-        </SafeAreaView>
+            <SafeAreaView style={styles.container}>
+                <FlatList refreshing={this.state.isRefreshing} onRefresh={() => { this.getLeagues() }} data={this.state.leagues} renderItem={({ item }) => (
+                    <League data={item} gotoLeague={this.gotoLeague} />
+                )} />
+                <View style={styles.footer}>
+                    <TouchableOpacity onPress={this.handleLogout} style={styles.logOutButton}>
+                        <Text style={styles.logOutText}  >Logout </Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#171e24',
-      color: '#fff',
+        flex: 1,
+        backgroundColor: '#171e24',
+        color: '#fff',
+    },
+    footer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center'
     },
     logOutButton: {
-        backgroundColor: '#003152',
+        backgroundColor: '#5762D5',
         color: 'white',
-        borderRadius: 25,
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 33,
+        fontSize: 24,
         marginTop: 20,
-        width: screenWidth,
-        height: 50,
+        marginBottom: 20,
+        width: '50%',
         paddingHorizontal: 10,
-        borderRadius: 0,
-    
-      },
+        borderRadius: 25,
+    },
+    logOutText: {
+        color: '#D1E3DD',
+        textAlign: 'center',
+        fontSize: 33,
+    },
 });
 
 export default LeaguesScreen;
-  
