@@ -22,6 +22,18 @@ const LeagueSchema = mongoose.Schema({
         }],
         required: true
     },
+    matchups: {
+        type: [
+            [
+                {
+                    username: { type: String, required: true },
+                        score: 0,
+                }
+
+            ]
+        ],
+        required: true
+    },
     draftStarted: {
         type: Boolean,
         required: true,

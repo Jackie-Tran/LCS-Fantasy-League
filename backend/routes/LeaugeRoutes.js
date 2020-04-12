@@ -63,6 +63,72 @@ router.put('/:id/addPlayer', (req, res, next) => {
     });
 });
 
+//Update matchup Scores
+router.put('/:id/updateScore', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
+        if (err) return "stupid";
+        for( let x=0;x<league.players.length; x++)
+        {
+            for( let y=0; y<league.matchups.length;y++)
+            {
+                if (league.players[x].username == league.matchups[y][0].username)
+                {  
+                    League.updateOne({ _id: req.params.id }, { $set: { "matchups.y.0.score": league.players[x].score} }, (err, league) => {
+                        if (err) console.log("cant work1");
+                    console.log('Adding player to league');
+                    
+                });
+
+                }
+                else if (league.players[x].username == league.matchups[y][1].username)
+                {   
+                    League.updateOne({ _id: req.params.id }, { $set: { "matchups.y.1.score": league.players[x].score} }, (err, league) => {
+                        if (err) console.log("cant work2");
+                    console.log('Adding player to league');
+                    
+                });
+
+                }
+            } 
+        }
+        return res.json(league);
+        
+    });
+});
+
+// Add Matchups
+router.put('/:id/createMatchup', (req, res, next) => {
+
+    let myArray = []
+    // find League with players 
+    League.findById(req.params.id, (err, league) => {
+        // create Matchups 
+        for (let i=0; i< league.players.length; i= i+2)
+        {  let matchDetails = 
+            {  match1: [],
+                match2: []
+            }
+            let matchup1= {
+                username: league.players[i].username,
+                score: league.players[i].score
+            };
+            let matchup2= {
+                username: league.players[i+1].username,
+                score: league.players[i].score
+            };
+    
+            myArray.push(matchup1,matchup2)
+            League.updateOne({ _id: req.params.id }, { $addToSet: { "matchups": myArray } }, (err, league) => {
+                if (err) return res.json(err);
+                console.log('Adding player to league');
+                return res.json(league);
+            });
+        }
+    
+    });
+    });
+
+
 // Remove player
 router.put('/:id/removePlayer/:uid', (req, res, next) => {
     League.updateOne({ _id: req.params.id }, { $pull: { "players": {"uid": req.params.uid} } }, (err, league) => {
@@ -72,13 +138,49 @@ router.put('/:id/removePlayer/:uid', (req, res, next) => {
 });
 
 // Get players in league
-router.get('/:id/players', (req, res, next) => {
+router.get('/:id/:uid/player', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {
         if (err) return res.json(err);
         return res.json(league.players);
     });
 });
+router.get('/:id/:player/specific', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
+        let back = [];
+        if (err) return res.json(err);
+        else 
+        {   
+            for (let i=0; i<league.players.length;i++)
+            {
+                if (league.players[i].username ===req.params.player)
 
+                {
+                    return res.json(league.players[i].team); 
+                }
+            }
+        }
+        return res.json(back);
+    });
+});
+
+router.get('/:id/:uid/uid', (req, res, next) => {
+    League.findById(req.params.id, (err, league) => {
+        let back = [];
+        if (err) return res.json(err);
+        else 
+        {   
+            for (let i=0; i<league.players.length;i++)
+            {
+                if (league.players[i].uid ===req.params.uid)
+
+                {
+                    return res.json(league.players[i].team); 
+                }
+            }
+        }
+        return res.json(back);
+    });
+});
 // Get matchups in league
 router.get('/:id/matchups', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {
@@ -86,6 +188,7 @@ router.get('/:id/matchups', (req, res, next) => {
         return res.json(league.matchups);
     });
 });
+
 
 // Get pros in league
 router.get('/:id/getPros', (req, res, next) => {
@@ -185,7 +288,8 @@ router.delete('/:id', (req, res, next) => {
     League.findByIdAndDelete(req.params.id, (err, league) => {
         if (!league) return res.sendStatus(404);
         if (err) return res.json(err);
-        if (league) return res.json(league);
+        if (league) 
+        return res.json(league);
     });
 });
 
