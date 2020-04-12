@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import CustomeDrawere from '../screens/CustomDrawere';
 import * as  firebase from 'firebase'
-import Logout from '../authentication/Logout'
 import LeaguesScreen from '../LeaguesScreen';
 import {
   DrawerItem,
@@ -52,7 +51,6 @@ class sideMenu2 extends Component {
         initialRouteName="LeaguesScreens"
         >
         <Drawer.Screen name="LeaguesScreen"  component={LeaguesScreen} />
-        <Drawer.Screen name="Logout" initialParams= {this.props.setAuthenticated} component={Logout} />
       </Drawer.Navigator>
     );
 }
