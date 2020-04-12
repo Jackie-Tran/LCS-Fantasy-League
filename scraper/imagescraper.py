@@ -26,7 +26,7 @@ def collectPlayerImages():
 
         a = soup.findAll("a", {"class": "image"})[1]
         image = a.findChildren()[0]['src']
-        ign = row.findChildren()[0]['href'][1:]
+        ign = row.findChildren()[0]['href'][1:].lower()
         allImages.append((ign, image))
     return allImages
 
@@ -57,6 +57,6 @@ def uploadImages():
                 response = requests.post("{0}/players/images/upload".format(apiUrl), files=files)
                 print(response)
 
-i = collectPlayerImages()
-saveImages(i)
+# i = collectPlayerImages()
+# saveImages(i)
 uploadImages()
