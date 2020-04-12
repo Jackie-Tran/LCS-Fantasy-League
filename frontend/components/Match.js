@@ -13,20 +13,19 @@ const Match= (props) => {
     return (
       <TouchableOpacity style={styles.container}onPress={() => 
         props.gotoMatch(props.data)} >
-
         <View style={{flex: 1,justifyContent:"center", alignItems:"center" , flexDirection: 'column'}}>
             <View style ={{flex:1, flexDirection: 'row',alignItems:'space-around' ,alignContent: 'space-around' }}>
             <View style ={{flex:1,alignItems:'space-around' ,alignContent: 'space-around' }}>
-                <Text style={styles.title}>{ props.data[0]}</Text>
+                <Text style={styles.title}>{ props.data[0].username}</Text>
                 </View>
-                <Text style = {{}}>22423434</Text>           
+                <Text style= {{color:"white", fontSize: 18}} >{ props.data[0].score}</Text>
             </View>
         
                 <View style ={{flex:1, flexDirection: 'row',alignItems:'space-around' ,alignContent: 'space-around' }}>
                 <View style ={{flex:1,alignItems:'space-around' ,alignContent: 'space-around' }}>
-                <Text style={styles.title}>{ props.data[1]}</Text>
+                <Text style={styles.title}>{ props.data[1].username}</Text>
                 </View>
-                <Text style = {{}}>22432434</Text>           
+                <Text style= {{color:"white", fontSize: 18}}>{ props.data[1].score}</Text>
                 </View>
         </View>
         {/* </View> */}
@@ -41,11 +40,13 @@ const Match= (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#1c2a35',
+        borderRadius:6,
+        backgroundColor: '#1e689e',
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingRight: fullWidth/5,
-        margin: fullWidth/100
+        height: fullHeight/10,
+        margin: 10,
     },
     data: {
         justifyContent: 'center',

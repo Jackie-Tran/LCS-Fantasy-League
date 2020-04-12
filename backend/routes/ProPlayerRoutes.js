@@ -27,6 +27,15 @@ router.get('/getById/:id', (req, res, next) => {
         if (player) return res.json(player);
     });
 });
+
+// Get player by ign
+router.get('/getByIgn/:ign', (req, res, next) => {
+    ProPlayer.find({ign: req.params.ign}, (err, player) => {
+        if (!player) return res.sendStatus(404);
+        if (err) return res.json(err);
+        if (player) return res.json(player);
+    });
+});
 // Get player by role
 router.get('/getByRole/:role', (req, res, next) => {
     // Check for valid role (top, jungler, mid, bot, support)
