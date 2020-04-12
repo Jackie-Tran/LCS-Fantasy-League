@@ -1,6 +1,6 @@
 import requests, re, json
 import sys
-import datetime
+from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 
@@ -155,7 +155,13 @@ def sendTheBullShitIn(theBullshit):
             endpoint = "{0}/leagues/{1}/updatescore/{2}/{3}/".format(apiUrl, each, x['uid'], x["score"])
             response = requests.put(endpoint, json=x)
 
-date = datetime.datetime.now().strftime("%Y-%m-%d")
-y = collectDataForDate(date)
+today = datetime.now().strftime("%Y-%m-%d")
+yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+# Collect data for yesterday just in case if not up to date
+y = collectDataForDate(yesterday)
+x = updateAllTheBullshit(y)
+sendTheBullShitIn(x)
+# Collect data for today
+y = collectDataForDate(today)
 x = updateAllTheBullshit(y)
 sendTheBullShitIn(x)
