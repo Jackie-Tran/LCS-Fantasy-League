@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Alert, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Alert, TouchableOpacity, Text, View, Button, TextInput, TouchableHighlight, Image, SafeAreaView } from 'react-native';
 import Firebase, { db } from '../../Firebase';
 
 class Signup extends Component {
-  
+
   dbRef = Firebase.firestore().collection('users');
   state = {
     title: '',
@@ -15,22 +15,22 @@ class Signup extends Component {
   handleSignUp = () => {
     const { displayName, email, password } = this.state;
     Firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(({user}) => {
-      if (user) {
-        user.updateProfile({
-          displayName: displayName,
-          photoURL : "https://assets.entrepreneur.com/content/3x2/2000/20190502194704-ent19-june-editorsnote.jpeg"
+      .then(({ user }) => {
+        if (user) {
+          user.updateProfile({
+            displayName: displayName,
+            photoURL: "https://assets.entrepreneur.com/content/3x2/2000/20190502194704-ent19-june-editorsnote.jpeg"
+          }
+          ).then(({ user }) => {
+            console.log(user);
+          })
+            .catch((err) => { console.log(err) });
+          this.props.route.params.setAuthenticated(true);
         }
-        ).then(({user}) => {
-          console.log(user);
-        }) 
-        .catch((err) => {console.log(err)});
-        this.props.route.params.setAuthenticated(true);
-      }
-    })
-    .catch((error) => {
-      
-      let errorMessage = error.code; 
+      })
+      .catch((error) => {
+
+        let errorMessage = error.code;
         if (errorMessage === "auth/email-already-in-use") {
           Alert.alert("Email already in use.");
         }
@@ -40,11 +40,11 @@ class Signup extends Component {
         else if (errorMessage === "auth/weak-password") {
           Alert.alert("weakPassword");
         }
-         else {
+        else {
           console.log("errorCode")
         }
       });
-  
+
     // Firebase.auth()
     //   .createUserWithEmailAndPassword(email, password)
     //   .then(() => this.props.route.params.setAuthenticated(true))
@@ -52,13 +52,15 @@ class Signup extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.base2Text}>
-          Welcome 
-            </Text>
-            <Text style={styles.baseText}>
-          Join the Battle
-            </Text>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>
+            Join the Battle
+          </Text>
+          <Text style={styles.subtitle}>
+            Please enter the following information
+          </Text>
+        </View>
         <TextInput placeholder="Enter Username"
           secureTextEntry={false}
           placeholderTextColor="#FFFFFF"
@@ -81,64 +83,52 @@ class Signup extends Component {
           style={styles.inputStyle}
         />
         <TouchableOpacity
-          onPress={this.handleSignUp.bind(this)}>
-          <Text style={styles.logInButton}  >Signup </Text>
+          onPress={this.handleSignUp.bind(this)} style={styles.logInButton}>
+          <Text style={styles.loginText}  >Signup </Text>
         </TouchableOpacity>
-      </View>
-
+      </SafeAreaView>
     );
   };
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000080',
+    backgroundColor: '#171e24',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    margin: 10
   },
-  baseText:
+  titleContainer: {
+    alignItems: 'center',
+    textAlign: 'center'
+  },
+  title:
   {
     //fontFamily: 'Cochin',
-    fontSize: 20,
+    fontSize: 56,
     marginVertical: 20,
+    fontWeight: 'bold',
     color: "#FFFFFF"
   },
-  base2Text:
+  subtitle:
   {
     //fontFamily: 'Cochin',
-    fontSize: 30,
-    marginVertical: 0,
+    fontSize: 18,
     color: "#FFFFFF",
-    fontWeight: "bold"
-  },
-
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover', // or 'stretch'
-  },
-  ImageStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    alignItems: 'center'
   },
   logInButton: {
-    backgroundColor: '#FFFFFF',
-    color: '#000080',
-    borderRadius: 25,
-    textAlign: 'center',
+    backgroundColor: '#5762D5',
     fontWeight: 'bold',
-    fontSize: 33,
+    width: '50%',
     marginTop: 20,
-    width: 300,
-    height: 40,
-    paddingHorizontal: 10,
-    borderRadius: 50,
-
+    padding: 2,
+    borderRadius: 30
+  },
+  loginText: {
+    color: '#D1E3DD',
+    textAlign: 'center',
+    fontSize: 33,
   },
   inputStyle: {
 

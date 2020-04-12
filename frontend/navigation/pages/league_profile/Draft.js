@@ -29,10 +29,6 @@ class Draft extends Component {
     });
   }
 
-  getLeague = () => {
-
-  }
-
   getPlayersByRole = (role) => {
     this.setState({currentRole: role});
     axios.get(endpoints.GETPLAYERSBYROLE_EP + role)
@@ -106,7 +102,8 @@ class Draft extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Choose Player</Text>
-          <TextInput style={styles.searchBar} placeholder="Search LCS Player" />
+          {/* <TextInput style={styles.searchBar} placeholder="Search LCS Player" /> */}
+          <Text style={styles.subtitle}>Select a role</Text>
         </View>
         <View style={styles.playerSelect}>
           <View style={styles.roles}>
@@ -134,9 +131,6 @@ class Draft extends Component {
         <View style={styles.footer}>
           <TouchableOpacity style={styles.lockinButton} onPress={() => this.lockinPro()}>
             <Text>Lock In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.lockinButton} onPress={() => console.log(this.state)}>
-            <Text>State</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -212,10 +206,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
   roleButton: {
-    backgroundColor: '#363636',
+    backgroundColor: '#353A47',
     flex: 1,
     alignItems: 'center',
     alignContent: 'center',
+    height: 50,
+    textAlign: 'center',
+    justifyContent: 'center'
   },
   footer: {
     flex: 1,
@@ -228,8 +225,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#fff',
   },
+  subtitle: {
+    marginTop: '5%',
+    fontSize: 18,
+    color: 'white'
+  },
   lockinButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     color: '#000080',
     width: '45%',
     height: '50%',
@@ -238,7 +240,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    color: 'white'
+    color: 'white',
+    fontSize: 18
   },
   notification: {
     fontSize: 27,
