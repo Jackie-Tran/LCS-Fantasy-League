@@ -63,7 +63,6 @@ router.put('/:id/addPlayer', (req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
 //Update matchup Scores
 router.put('/:id/updateScore', (req, res, next) => {
     League.findById(req.params.id, (err, league) => {
@@ -130,16 +129,6 @@ router.put('/:id/createMatchup', (req, res, next) => {
     });
 
 
-=======
-// Update player score
-router.put('/:id/updatescore/:uid/:score', (req, res, next) => {
-  League.updateOne({ _id: req.params.id, "players.uid": req.params.uid }, { $set: { "players.$.score": parseInt(req.params.score) } }, (err, league) => {
-      if (err) return res.json(err);
-      return res.json(league);
-  });
-});
-
->>>>>>> db057cde4b668769c1256dbe9f79266d25925989
 // Remove player
 router.put('/:id/removePlayer/:uid', (req, res, next) => {
     League.updateOne({ _id: req.params.id }, { $pull: { "players": {"uid": req.params.uid} } }, (err, league) => {
