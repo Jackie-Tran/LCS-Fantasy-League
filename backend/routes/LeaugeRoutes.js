@@ -65,7 +65,7 @@ router.put('/:id/addPlayer', (req, res, next) => {
 
 // Update player score
 router.put('/:id/updatescore/:uid/:score', (req, res, next) => {
-  League.updateOne({ _id: req.params.id, "players.uid": req.params.uid }, { $set: { "players.$.score": req.params.score } }, (err, league) => {
+  League.updateOne({ _id: req.params.id, "players.uid": req.params.uid }, { $set: { "players.$.score": parseInt(req.params.score) } }, (err, league) => {
       if (err) return res.json(err);
       return res.json(league);
   });

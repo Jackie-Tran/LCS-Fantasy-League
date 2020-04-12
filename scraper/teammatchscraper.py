@@ -128,6 +128,7 @@ def updateAllTheBullshit(proPoints):
         for player in allPlayers[league]:
             for key in proPoints.keys():
                 if key.upper() in (pros.upper() for pros in player['team']):
+                    player['score'] = int(player['score'])
                     player['score'] += proPoints[key]
 
     return allPlayers
