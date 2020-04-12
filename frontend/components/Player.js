@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
         padding: '1%',
         alignContent: 'center',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        borderRadius: 15
     },
     image: {
         width: '20%',
