@@ -1,6 +1,48 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('../connection');
 const ProPlayer = require('../models/ProPlayer');
+const bodyParser = require('body-parser');
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOveride = require('method-override');
+
+// Middleware
+router.use(bodyParser.json());
+router.use(methodOveride('_method'));
+
+let gfs;
+
+mongoose.eSports.once('open', () => {
+    // Initialize Stream
+    gfs = Grid(mongoose.eSports, mongoose.mongo);
+    gfs.collection('proImages');
+});
+
+const storage = new GridFsStorage({
+    url: process.env.ESPORTS_DB,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+        //   const filename = buf.toString('hex') + path.extname(file.originalname);
+          const filename = file.originalname;
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'proImages'
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+  });
+const upload = multer({ storage });
+
 
 // Create player
 router.post('/', (req, res, next) => {
@@ -9,6 +51,31 @@ router.post('/', (req, res, next) => {
         if (err) return res.json(err);
         return res.json(player);
     });
+});
+
+// Upload Image
+router.post('/images/upload', upload.single('file'), (req, res, next) => {
+    console.log("uploading image")
+    // TODO: check if file name already exists
+    res.json({file: req.file});
+});
+
+// Get Image
+router.get('/images', (req, res, next) => {
+    gfs.files.find().toArray((err, files) => {
+        if (!files || files.length == 0) return res.status(404).send("No files exist");
+        
+        return res.json(files);
+    })
+});
+
+// Get Image
+router.get('/images/:ign', (req, res, next) => {
+    gfs.files.findOne({  }).toArray((err, files) => {
+        if (!files || files.length == 0) return res.status(404).send("No files exist");
+        
+        return res.json(files);
+    })
 });
 
 // Get All players
