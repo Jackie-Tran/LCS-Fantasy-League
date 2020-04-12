@@ -35,13 +35,13 @@ class Scoreboard extends Component {
         uid: player.uid,
         userName: player.username,
         iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
-        score: player.score
+        highScore: player.score
       }
       console.log(newPlayer);
       let newData = this.state.data;
       newData.push(newPlayer);
       this.setState({
-        data: [...this.state.data, newPlayer],
+        data: [...this.state.data],
       });
     });
   }
@@ -109,7 +109,7 @@ class Scoreboard extends Component {
     if (this.checkIfInLeauge()) {
       return (
         <TouchableOpacity style={styles.button} onPress={() => this.leaveLeague()}>
-          <Text>LEAVE LEAGUE</Text>
+          <Text style={styles.buttonText}>LEAVE LEAGUE</Text>
         </TouchableOpacity>
       );
     } else {
@@ -137,8 +137,8 @@ class Scoreboard extends Component {
         <View style={styles.scoreboardContainer}>
           <Text style={styles.subtext}>Current Standings</Text>
           <Leaderboard
-            evenRowColor='#FF00FF'
-            oddRowColor='#A9A9A9'
+            evenRowColor='#6E7DAB'
+            oddRowColor='#575366'
             data={this.state.data}
             icon='iconUrl'
             sortBy='highScore'
@@ -146,9 +146,6 @@ class Scoreboard extends Component {
         </View>
         <View style={styles.buttonContainer}>
           {this.generateButton()}
-          <TouchableOpacity style={styles.button} onPress={() => { console.log("CURRENT STATE"); console.log(this.props.route.params.data) }}>
-            <Text>State</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     )
@@ -157,7 +154,7 @@ class Scoreboard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000080',
+    backgroundColor: '#171e24',
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
@@ -175,6 +172,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flex: 1,
+    backgroundColor: '#1a1f24'
   },
   subtext: {
     color: 'white',
@@ -187,15 +185,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: {
-    borderColor: 'white',
-    borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
-    width: '40%',
+    backgroundColor: '#5762D5',
+    width: '50%',
     height: '50%'
-
+  },
+  buttonText: {
+    color: '#D1E3DD',
+    textAlign: 'center',
+    fontSize: 18,
   },
   picture:
   {

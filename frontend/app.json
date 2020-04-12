@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LCS Fantasy League",
-    "slug": "lcs_fantasy_league",
+    "name": "League of Legends Fantasy League",
+    "slug": "lol_fantasy_league",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -26,6 +26,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": ""
+    "description": "CSCC09 Final Project",
+    "githubUrl": "https://github.com/UTSCC09/project-cookie"
   }
 }

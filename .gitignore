@@ -9,5 +9,4 @@ db
 *-lock.json
 .env
 backend/serviceAccountKey.json
-scraper/images
 

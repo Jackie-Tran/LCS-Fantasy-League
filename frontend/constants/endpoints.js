@@ -1,4 +1,4 @@
-const HOST = '54.174.209.143'; // Change this to the IPv4 address of the machine running the express server
+const HOST = '192.168.1.69'; // Change this to the IPv4 address of the machine running the express server
 const PORT = '3000';
 
 export const GETUSER_EP = ((id) => {return 'http://' + HOST + ':' + PORT + '/users/'+id});
@@ -20,3 +20,4 @@ export const CREATEMATCHUPSTOLEAGUE_EP = ((id) => {return 'http://' + HOST + ':'
 export const GETPLAYERSBYROLE_EP = 'http://' + HOST + ':'+ PORT + '/players/getByRole/';
 export const GETPROSINLEAGUE_EP = ((id) => {return 'http://' + HOST + ':' + PORT + '/leagues/'+id+'/getPros'});
 export const GETPROSBYIGN_EP = ((ign) => {return 'http://' + HOST + ':' + PORT + '/players/'+'/getByIgn/'+ign});
+export const GETPROIMAGE_EP = ((ign) => {return 'http://' + HOST + ':' + PORT + '/players/images/' + ign.toLowerCase().replace(" ", "_")});
