@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "League of Legends Fantasy League",
-    "slug": "frontend",
+    "name": "LCS Fantasy League",
+    "slug": "lcs_fantasy_league",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
