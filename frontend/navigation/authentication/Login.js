@@ -18,7 +18,6 @@ class Login extends Component {
       .then(() => this.props.route.params.setAuthenticated(true))
       .catch(error => {
         let errorCode = error.code;
-        console.log(errorCode)
         if (errorCode === 'auth/invalid-email') {
           Alert.alert(
             'Invalid Email'

@@ -38,7 +38,7 @@ export default function App() {
           !authenticated ? (
             <Stack.Navigator>
               <Stack.Screen name="Login" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Login} />
-              <Stack.Screen name="Signup" initialParams={{ setAuthenticated }} component={Signup} />
+              <Stack.Screen name="Signup" options={{ headerShown: false }} initialParams={{ setAuthenticated }} component={Signup} />
               <Stack.Screen name="ForgotPassword" initialParams={{ setAuthenticated }} component={ForgotPassword} />
             </Stack.Navigator>
           ) : (
