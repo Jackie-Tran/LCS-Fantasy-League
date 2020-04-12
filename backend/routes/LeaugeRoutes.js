@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const League = require('../models/League');
 /**
- * TODO: 
+ * TODO:
  * - Players cannot join the same league multiple times (ie. players array should not have duplicates)
  *   - same goes for activePros
  * - Need to assign activePros to the correct player's roster/team
@@ -61,6 +61,14 @@ router.put('/:id/addPlayer', (req, res, next) => {
             return res.json(league);
         });
     });
+});
+
+// Update player score
+router.put('/:id/updatescore/:uid/:score', (req, res, next) => {
+  League.updateOne({ _id: req.params.id, "players.uid": req.params.uid }, { $set: { "players.$.score": req.params.score } }, (err, league) => {
+      if (err) return res.json(err);
+      return res.json(league);
+  });
 });
 
 // Remove player

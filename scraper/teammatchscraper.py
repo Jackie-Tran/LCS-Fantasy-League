@@ -29,7 +29,7 @@ class Match:
         self.date = date
         self.team1 = team1
         self.team2 = team2
-    
+
     def __str__(self):
         return "Date: " + self.date + " Team1: " + self.team1 + " Team2: " + self.team2
 
@@ -69,6 +69,7 @@ def collectDataForDate(date):
     rows = iter(table.find_all('tr'))
     next(rows) # First row is header not important
     player_list = []
+    playerScoreDict = {}
     headers = {'[content-type]': 'application/json'}
 
     for row in rows:
@@ -90,10 +91,7 @@ def collectDataForDate(date):
         # Create the match
         match = Match(date, team1, team2)
         endpoint = "{0}/matches/createMatch".format(apiUrl)
-        print(match.__dict__)
         response = requests.post(endpoint, json={"date": date, "team1.name": team1, "team2.name": team2})
-        print(endpoint)
-        print(response)
         if not stats_tab == []:
             player_stats = iter(stats_tab[0].findChildren(["tr"], recursive=False) + stats_tab[1].findChildren(["tr"], recursive=False))
             for player in player_stats:
@@ -107,9 +105,13 @@ def collectDataForDate(date):
                 # points calculated by kills - deaths + assists for now
                 points = int(kda[0]) - int(kda[1]) + int(kda[2])
 
+                if (name.get_text() in playerScoreDict.keys()):
+                    playerScoreDict[name.get_text()] += points
+                else:
+                    playerScoreDict[name.get_text()] = points
+
                 new_player = PlayerMatchStats(team, name.get_text(), kda[0], kda[1], kda[2], cs, points)
                 player_list.append(new_player)
-                print(new_player)
                 playerCount += 1
                 # Make request to create player
                 headers = {'[content-type]': 'application/json'}
@@ -118,7 +120,39 @@ def collectDataForDate(date):
                 print(endpoint)
                 print(response)
 
-    return 0
+    return playerScoreDict
+
+def updateAllTheBullshit(proPoints):
+    allPlayers = getTheBullshitPlayers()
+    for league in allPlayers.keys():
+        for player in allPlayers[league]:
+            for key in proPoints.keys():
+                if key.upper() in (pros.upper() for pros in player['team']):
+                    player['score'] += proPoints[key]
+
+    return allPlayers
 
 
-collectDataForDate(sys.argv[1])
+def getTheBullshitPlayers():
+    leagueBullshitIds = ["5e78d59ddb93b3460488693e", "5e8f96cb9735fc56302613a6"]
+    getAllBullShitUsers = {}
+    apiUrl = 'http://localhost:3000'
+
+    for each in leagueBullshitIds:
+        endpoint = "{0}/leagues/{1}/players".format(apiUrl, each)
+        response = requests.get(endpoint)
+        getAllBullShitUsers[each] = json.loads(response.text)
+
+    return getAllBullShitUsers
+
+def sendTheBullShitIn(theBullshit):
+    apiUrl = 'http://localhost:3000'
+    for each in theBullshit.keys():
+        for x in theBullshit[each]:
+            headers = {'[content-type]': 'application/json'}
+            endpoint = "{0}/leagues/{1}/updatescore/{2}/{3}/".format(apiUrl, each, x['uid'], x["score"])
+            response = requests.put(endpoint, json=x)
+
+y = collectDataForDate(sys.argv[1])
+x = updateAllTheBullshit(y)
+sendTheBullShitIn(x)
