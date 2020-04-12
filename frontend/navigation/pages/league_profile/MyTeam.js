@@ -39,7 +39,7 @@ class MyTeam extends Component {
               player: fullData.ign,
               Team: fullData.team,
               Nationality: fullData.nationality,
-              imagePlaceHolder: require('../../../images/bjerg.jpg'),
+              imagePlaceHolder: endpoints.GETPROIMAGE_EP(player),
               imagePlaceHolder2: require('../../../images/Bottom_icon.png')
             }
            let roster = [...this.state.roster];

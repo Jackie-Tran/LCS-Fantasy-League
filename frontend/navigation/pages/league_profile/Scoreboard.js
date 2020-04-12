@@ -35,7 +35,7 @@ class Scoreboard extends Component {
         uid: player.uid,
         userName: player.username,
         iconUrl: 'https://vectorified.com/images/lee-sin-icon-11.png',
-        score: player.score
+        highScore: player.score
       }
       console.log(newPlayer);
       let newData = this.state.data;

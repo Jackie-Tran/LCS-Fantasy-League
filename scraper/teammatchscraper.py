@@ -155,8 +155,7 @@ def sendTheBullShitIn(theBullshit):
             endpoint = "{0}/leagues/{1}/updatescore/{2}/{3}/".format(apiUrl, each, x['uid'], x["score"])
             response = requests.put(endpoint, json=x)
 
-print(datetime.datetime.now().strftime("%Y-%m-%d"))
-collectDataForDate(sys.argv[1])
-y = collectDataForDate(sys.argv[1])
+date = datetime.datetime.now().strftime("%Y-%m-%d")
+y = collectDataForDate(date)
 x = updateAllTheBullshit(y)
 sendTheBullShitIn(x)
