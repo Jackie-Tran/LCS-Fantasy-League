@@ -1,5 +1,6 @@
 import requests, re, json
 import sys
+import datetime
 from bs4 import BeautifulSoup
 
 
@@ -121,4 +122,5 @@ def collectDataForDate(date):
     return 0
 
 
+print(datetime.datetime.now().strftime("%Y-%m-%d"))
 collectDataForDate(sys.argv[1])
