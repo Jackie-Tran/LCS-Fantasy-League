@@ -13,7 +13,7 @@ const League = (props) => {
 
     return (
         <View style={styles.item}>
-        <Image source={props.data.imagePlaceHolder} style={{ width: 75, height: fullHeight/6}} />
+        <Image source={{uri: props.data.imagePlaceHolder}} style={{ width: 75, height: fullHeight/6}} />
         <View style={styles.data}>
           <Text style={{ alignSelf: "flex-start", color: 'white' }}> {props.data.player}</Text>
           <Text style={{ alignSelf: "flex-start", color: 'white' }}> {props.data.Team} </Text>

@@ -25,32 +25,31 @@ class MyTeam extends Component {
     let myArray = [];
     let i =0; 
     this.setState({ isRefreshing: true });
-    console.log("KEYS")
     axios.get(endpoints.GETROSTERINLEAGUE_EP(this.props.route.params.data._id,"joseph"))
       .then(rosterPlayers => {
-        console.log("KEYS2")
+        
         rosterPlayers.data.forEach(yourPlayerNames => {
           console.log("PLAYER ANMES" + yourPlayerNames)
           axios.get(endpoints.GETPROSBYIGN_EP(yourPlayerNames))
           .then(proPlayer=> {
              let fullData = proPlayer.data[0]
-             console.log("Full data is " + fullData.ign)
+            
               let newPlayer = {
               player: fullData.ign,
               Team: fullData.team,
               Nationality: fullData.nationality,
-              imagePlaceHolder: require('../../../images/bjerg.jpg'),
+              imagePlaceHolder: "http://54.174.209.143:3000/players/images/"+fullData.ign.toLowerCase().replace(" ", ""),
               imagePlaceHolder2: require('../../../images/Bottom_icon.png')
             }
            let roster = [...this.state.roster];
             roster.push(newPlayer);
-            console.log("current Roster"+ roster)
+            
             this.setState({ roster:roster,isRefreshing:false});
+         
             });
-            console.log("can we reach here"+ this.state)
           })
           .catch(err => {
-            console.log("error" + ereror)
+            console.log("error" + err)
           })    
 
         })
