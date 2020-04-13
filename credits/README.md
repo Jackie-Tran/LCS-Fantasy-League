@@ -1,4 +1,4 @@
-##Credits 
+## Credits 
 
  https://lol.gamepedia.com/LCS/2019_Season/Spring_Season/Team_Rosters- credits for lcs Teams
  
