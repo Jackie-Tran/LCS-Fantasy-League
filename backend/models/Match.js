@@ -1,6 +1,6 @@
 const mongoose = require('../connection');
 
-const Match = mongoose.Schema({
+const ProStatsSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -27,4 +27,31 @@ const Match = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.leagues.model('Match', LeagueSchema);
+const TeamSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    stats: {
+        type: [ProStatsSchema],
+        default: []
+    }
+
+});
+
+const MatchSchema = mongoose.Schema({
+    date: {
+        type: String,
+        required: true
+    },
+    team1: {
+        type: TeamSchema,
+        required: true,
+    },
+    team2: {
+        type: TeamSchema,
+        required: true,
+    }
+});
+
+module.exports = mongoose.eSports.model('Match', MatchSchema);
