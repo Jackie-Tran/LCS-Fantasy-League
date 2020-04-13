@@ -82,6 +82,7 @@ def collectDataForDate(date):
 
         href = row.find('a')
         link = "https://gol.gg" + (href.get('href').split('..')[1])
+        print(link)
         match_page = requests.get(link)
         soup = BeautifulSoup(match_page.text, 'html.parser')
         stats_tab = soup.find_all("table", class_="playersInfosLine footable toggle-square-filled")
@@ -157,11 +158,12 @@ def sendTheBullShitIn(theBullshit):
 
 today = datetime.now().strftime("%Y-%m-%d")
 yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+print(yesterday)
 # Collect data for yesterday just in case if not up to date
 y = collectDataForDate(yesterday)
-x = updateAllTheBullshit(y)
-sendTheBullShitIn(x)
+# x = updateAllTheBullshit(y)
+# sendTheBullShitIn(x)
 # Collect data for today
-y = collectDataForDate(today)
-x = updateAllTheBullshit(y)
-sendTheBullShitIn(x)
+# y = collectDataForDate(today)
+# x = updateAllTheBullshit(y)
+# sendTheBullShitIn(x)

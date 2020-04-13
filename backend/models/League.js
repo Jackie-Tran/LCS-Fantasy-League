@@ -37,7 +37,7 @@ const LeagueSchema = mongoose.Schema({
     draftStarted: {
         type: Boolean,
         required: true,
-        default: false,
+        default: true,
     },
     pickIndex: {
         type: Number,
