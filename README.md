@@ -8,7 +8,7 @@
 
 ## What is it?
 
-A online web app where people can join leagues and draft a team to compete every weekend in the LCS. In every league users will start with a budget and draft a Captain, Top Laner, Jungler, Mid Laner, ADC, Support, and two Fills for the weekend. During the LCS games that week, your players will earn you points for their performance in the games. For example, kills, assists, dragons, barons, towers etc.
+A online web app where people can join leagues and draft a team to compete every weekend in the LCS. In every league users will draft a Top Laner, Jungler, Mid Laner, ADC, Support. During the LCS games that week, your players will earn you points for their performance in the games. For example, kills, assists, dragons, barons, towers etc.
 
 ## Key Features for Beta
 
@@ -21,19 +21,17 @@ A online web app where people can join leagues and draft a team to compete every
 3. Database of Players
    - A database of all players in the LCS
    - Players will have a signing cost to 
-4. Drafting
-   - Participants start with an amount of money they can use to draft players
-   - For every round of drafts, the draft order will be reversed to ensure fairness
-
 ## Additional Features for Final
 
-1. Private Leagues
-   - Require invitation code to join
-2. Trades
-   - Participants can make offers to trade players with other users.
-3. Player Comparator
-   - Compare stats of each player
-
+1. Roster
+   - Ability to view roster when currently in the league 
+2. Scoreboard
+   - Scoreboard that displays users in the league 
+   - shows each users cumalative score 
+3. Drafting
+   - Participants start with an amount of money they can use to draft players
+   - For every round of drafts, the draft order will be reversed to ensure fairness
+ 
 ## Tech Stack
 
 MERN Stack
@@ -43,12 +41,6 @@ MongoDB
 - Store LCS players and their signing costs
 - Store Leagues (Users participating, LCS players playing in this league)
 - Store User data
-
-OAuth
-
-- signin into account 
-- Allow multiple sharing of data between different services 
-- Single sign in
 
 Express
 
@@ -80,5 +72,5 @@ Node.js
 4. UI/UX
    - Creating a solid experience for the user with decent speed and easy accesiblility
    - Ability to make the pages visually appealing for each user
-5. Connection of Backend/Frontend
-   - Challenging to understand/use another backend service and connect it with our frontend 
+5. Deploying The app
+   - Challenging to deploy the backend and frontend 
