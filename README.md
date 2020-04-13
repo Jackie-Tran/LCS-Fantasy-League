@@ -27,11 +27,11 @@ A online web app where people can join leagues and draft a team to compete every
    - Ability to view roster when currently in the league 
 2. Scoreboard
    - Scoreboard that displays users in the league 
-   - shows each users cumalative score 
+   - shows each users cumulative score 
 3. Drafting
    - Participants start with an amount of money they can use to draft players
    - For every round of drafts, the draft order will be reversed to ensure fairness
- 
+
 ## Tech Stack
 
 MERN Stack
@@ -47,12 +47,17 @@ Express
 - Used for the backend of the app
 - Create a REST API for the project
 
-React
+React Native
 
 - Building the entire frontend
+
 Node.js
 
 - Runtime Environment to run our REST API
+
+AWS, Expo
+
+- Deploy frontend/backend
 
 ## Top 5 Technical Challenges
 
@@ -74,3 +79,11 @@ Node.js
    - Ability to make the pages visually appealing for each user
 5. Deploying The app
    - Challenging to deploy the backend and frontend 
+
+
+
+Backend Documentation: https://documenter.getpostman.com/view/11051116/SzezbWno?version=latest
+
+
+
+Demo: https://youtu.be/mudRZMY2Jo8
